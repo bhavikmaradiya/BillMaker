@@ -8,18 +8,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AddNewCustomerActivity extends AppCompatActivity {
     RadioGroup radioGrp;
-    RadioButton male, female;
+    RadioButton checkedGender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_new_customer);
         radioGrp = findViewById(R.id.radioGrp);
-        male = findViewById(R.id.male);
-//        male.setOnCheckedChangeListener(((buttonView, isChecked) -> {
-//            radioGrp.clearCheck();
-//        }));
-
+        checkedGender = findViewById(radioGrp.getCheckedRadioButtonId());
 
     }
 }
