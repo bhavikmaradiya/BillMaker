@@ -5,10 +5,359 @@
     android:layout_height="match_parent"
     tools:context=".ManualProductFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <ScrollView
+        android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:paddingHorizontal="5dp"
+        android:scrollbars="none"
+        tools:ignore="UselessParent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Sub Total (₹)"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etSubtotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="0.00"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tax (%)"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etTax"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="0"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:nextFocusDown="@id/etSecondaryPhoneNumber"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Tax Amount"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etTaxAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="0.00"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:nextFocusDown="@id/etEmail"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Total Discount Amount (₹)"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etDiscountAmount"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="0"
+                    android:clickable="false"
+                    android:focusable="false"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:nextFocusDown="@id/etAge"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Grand Total (₹)"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etGrandTotal"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="0.00"
+                    android:importantForAutofill="no"
+                    android:inputType="number"
+                    android:maxLength="3"
+                    android:focusable="false"
+                    android:clickable="false"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/remarks"
+                    android:textSize="16sp" />
+
+                <EditText
+                    android:id="@+id/etRemarks"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/edittext_bg"
+                    android:hint="@string/enter_your_remarks"
+                    android:importantForAutofill="no"
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="4">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:paddingRight="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Invoice Date"
+                        android:textSize="16sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        android:weightSum="4"
+                        android:background="@drawable/edittext_bg">
+
+                        <EditText
+                            android:id="@+id/etDate"
+                            android:layout_width="0dp"
+                            android:layout_height="match_parent"
+                            android:background="@null"
+                            android:importantForAutofill="no"
+                            android:inputType="number"
+                            android:layout_weight="3"
+                            android:padding="8dp"
+                            android:gravity="center_vertical"
+                            android:layout_gravity="center_vertical"
+                            android:hint="00-00-0000"
+                            android:nextFocusDown="@id/etLeftIPD"
+                            android:clickable="false"
+                            android:focusable="false"
+                            android:textSize="14sp" />
+
+                        <ImageView
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
+                            android:src="@drawable/ic_calendar"
+                            android:background="@drawable/calender_bg"
+                            android:padding="7dp"
+                            android:layout_height="match_parent"/>
+
+
+                    </LinearLayout>
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:orientation="vertical"
+                    android:paddingLeft="5dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Invoice Place"
+                        android:textSize="16sp" />
+
+                    <EditText
+                        android:id="@+id/etPlace"
+                        android:layout_width="match_parent"
+                        android:layout_height="40dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/edittext_bg"
+                        android:hint="Rajkot"
+                        android:importantForAutofill="no"
+                        android:inputType="number"
+                        android:nextFocusDown="@id/spPrescribers"
+                        android:padding="8dp"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="vertical"
+                android:padding="5dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Bill Status"
+                    android:textSize="16sp" />
+
+
+                <RadioGroup
+                    android:id="@+id/radioGrp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginTop="5dp"
+                    android:gravity="center_vertical"
+                    android:checkedButton="@id/pending"
+                    android:nextFocusDown="@id/etAddress"
+                    android:orientation="horizontal"
+                    android:padding="5dp"
+                    android:weightSum="4">
+
+                    <RadioButton
+                        android:id="@+id/pending"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_weight="2"
+                        android:background="@drawable/radio_button"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="6dp"
+                        android:text="Pending"
+
+                        android:textColor="@color/spinner_text"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <RadioButton
+                        android:id="@+id/paid"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="20dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_weight="2"
+                        android:background="@drawable/radio_button"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingLeft="15dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="15dp"
+                        android:paddingBottom="6dp"
+                        android:text="Paid"
+                        android:textColor="@color/spinner_text"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
 
 </FrameLayout>
