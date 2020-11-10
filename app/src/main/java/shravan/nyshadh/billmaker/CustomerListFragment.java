@@ -6,6 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -13,9 +18,14 @@ import androidx.fragment.app.Fragment;
  */
 public class CustomerListFragment extends Fragment {
     View view;
+    RecyclerView rvCustomersList;
+    List<Customer> customerList;
 
     public CustomerListFragment() {
-        // Required empty public constructor
+        customerList = new ArrayList<>();
+        for (int i = 0; i < 10; i++) {
+            customerList.add(new Customer("Bhavik", "+91 94289844" + String.valueOf(i)));
+        }
     }
 
 
@@ -23,7 +33,11 @@ public class CustomerListFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_customer_list, container, false);
-        // Inflate the layout for this fragment
+        rvCustomersList = view.findViewById(R.id.rvCustomersList);
+        rvCustomersList.setLayoutManager(new LinearLayoutManager(getActivity()));
+        rvCustomersList.setHasFixedSize(true);
+        rvCustomersList.setAdapter(new CustomerListAdapter(getActivity(), customerList));
+
         return view;
     }
 }
