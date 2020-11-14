@@ -16,12 +16,14 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HistoryFragment extends Fragment {
+public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.InvoiceActionListener {
     RecyclerView rvInvoices;
     View view;
     List<Invoice> invoiceList;
+    InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener;
 
-    public HistoryFragment() {
+    public HistoryFragment(InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener) {
+        this.invoiceActionListener = invoiceActionListener;
         invoiceList = new ArrayList<>();
 
         for (int i = 0; i < 10; i++) {
@@ -37,7 +39,12 @@ public class HistoryFragment extends Fragment {
         rvInvoices = view.findViewById(R.id.rvInvoices);
         rvInvoices.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvInvoices.setHasFixedSize(true);
-        rvInvoices.setAdapter(new InvoiceHistoryAdapter(getActivity(), invoiceList));
+        rvInvoices.setAdapter(new InvoiceHistoryAdapter(getActivity(), invoiceList, this));
         return view;
+    }
+
+    @Override
+    public void onActionSelected(String action, Invoice invoice) {
+        invoiceActionListener.onActionSelected(action, invoice);
     }
 }

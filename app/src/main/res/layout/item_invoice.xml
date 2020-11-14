@@ -6,7 +6,8 @@
     android:layout_height="wrap_content"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    app:cardUseCompatPadding="true">
+    app:cardUseCompatPadding="true"
+    app:cardCornerRadius="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
