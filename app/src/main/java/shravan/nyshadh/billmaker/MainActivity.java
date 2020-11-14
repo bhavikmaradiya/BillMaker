@@ -15,7 +15,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InvoiceHistoryAdapter.InvoiceActionListener {
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
     ViewPager pager;
@@ -37,7 +37,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setUpNavigation();
         Fragment[] fragments = new Fragment[2];
         fragments[0] = new CustomerListFragment();
-        fragments[1] = new HistoryFragment();
+        fragments[1] = new HistoryFragment(this);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"});
         pager.setAdapter(pagerAdapter);
 
@@ -65,5 +65,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
         }
         return false;
+    }
+
+    @Override
+    public void onActionSelected(String action, Invoice invoice) {
+
     }
 }

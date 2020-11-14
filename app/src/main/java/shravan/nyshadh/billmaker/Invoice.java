@@ -2,12 +2,21 @@ package shravan.nyshadh.billmaker;
 
 public class Invoice {
     private String name, number, price, date;
+    boolean isExpanded = false;
 
     public Invoice(String name, String number, String price, String date) {
         this.name = name;
         this.number = number;
         this.price = price;
         this.date = date;
+    }
+
+    public boolean isExpanded() {
+        return isExpanded;
+    }
+
+    public void setExpanded(boolean expanded) {
+        isExpanded = expanded;
     }
 
     public Invoice() {

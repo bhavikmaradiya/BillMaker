@@ -35,17 +35,15 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
     public void onBindViewHolder(@NonNull InvoiceHolder holder, int position) {
         Invoice invoice = invoiceList.get(holder.getAdapterPosition());
 
-        holder.actionLayout.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
+        holder.actionLayout.setVisibility(invoice.isExpanded() ? View.VISIBLE : View.GONE);
         holder.price.setText(String.format("Total : %s", invoice.getPrice()));
         holder.date.setText(invoice.getDate());
         holder.number.setText(invoice.getNumber());
         holder.name.setText(invoice.getName());
 
-        holder.actionLayout.setOnClickListener(view -> {
-            if (selectedPosition != position) {
-                selectedPosition = position;
+        holder.itemView.setOnClickListener(view -> {
+                invoice.setExpanded(!invoice.isExpanded());
                 notifyItemChanged(position);
-            }
         });
 
         holder.imgCall.setOnClickListener(view -> invoiceActionListener.onActionSelected(Common.ACTION_INVOICE_CALL, invoice));
