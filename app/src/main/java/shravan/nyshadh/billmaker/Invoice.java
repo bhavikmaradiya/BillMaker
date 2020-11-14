@@ -1,7 +1,7 @@
 package shravan.nyshadh.billmaker;
 
 public class Invoice {
-    String name, number, price, date;
+    private String name, number, price, date;
 
     public Invoice(String name, String number, String price, String date) {
         this.name = name;

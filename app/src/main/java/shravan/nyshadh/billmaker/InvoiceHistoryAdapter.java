@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,12 +14,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
 
 public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAdapter.InvoiceHolder> {
-    Context context;
-    List<Invoice> invoiceList;
+    private Context context;
+    private List<Invoice> invoiceList;
+    private InvoiceActionListener invoiceActionListener;
+    private int selectedPosition = -1;
 
-    public InvoiceHistoryAdapter(Context context, List<Invoice> invoiceList) {
+    public InvoiceHistoryAdapter(Context context, List<Invoice> invoiceList, InvoiceActionListener invoiceActionListener) {
         this.context = context;
         this.invoiceList = invoiceList;
+        this.invoiceActionListener = invoiceActionListener;
     }
 
     @NonNull
@@ -28,10 +33,24 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     @Override
     public void onBindViewHolder(@NonNull InvoiceHolder holder, int position) {
-        holder.price.setText("Total : " + invoiceList.get(position).price);
-        holder.date.setText(invoiceList.get(position).date);
-        holder.number.setText(invoiceList.get(position).number);
-        holder.name.setText(invoiceList.get(position).name);
+        Invoice invoice = invoiceList.get(holder.getAdapterPosition());
+
+        holder.actionLayout.setVisibility(selectedPosition == position ? View.VISIBLE : View.GONE);
+        holder.price.setText(String.format("Total : %s", invoice.getPrice()));
+        holder.date.setText(invoice.getDate());
+        holder.number.setText(invoice.getNumber());
+        holder.name.setText(invoice.getName());
+
+        holder.actionLayout.setOnClickListener(view -> {
+            if (selectedPosition != position) {
+                selectedPosition = position;
+                notifyItemChanged(position);
+            }
+        });
+
+        holder.imgCall.setOnClickListener(view -> invoiceActionListener.onActionSelected(Common.ACTION_INVOICE_CALL, invoice));
+        holder.imgWhatsapp.setOnClickListener(view -> invoiceActionListener.onActionSelected(Common.ACTION_INVOICE_WHATSAPP, invoice));
+        holder.imgDetail.setOnClickListener(view -> invoiceActionListener.onActionSelected(Common.ACTION_INVOICE_DETAIL, invoice));
     }
 
     @Override
@@ -41,6 +60,8 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
 
     public static class InvoiceHolder extends RecyclerView.ViewHolder {
         TextView name, number, date, price;
+        LinearLayout actionLayout;
+        ImageView imgCall, imgWhatsapp, imgDetail;
 
         public InvoiceHolder(@NonNull View itemView) {
             super(itemView);
@@ -48,6 +69,14 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             number = itemView.findViewById(R.id.number);
             date = itemView.findViewById(R.id.date);
             price = itemView.findViewById(R.id.price);
+            imgCall = itemView.findViewById(R.id.imgCall);
+            imgDetail = itemView.findViewById(R.id.imgDetail);
+            imgWhatsapp = itemView.findViewById(R.id.imgWhatsapp);
+            actionLayout = itemView.findViewById(R.id.actionLayout);
         }
+    }
+
+    public interface InvoiceActionListener {
+        void onActionSelected(String action, Invoice invoice);
     }
 }

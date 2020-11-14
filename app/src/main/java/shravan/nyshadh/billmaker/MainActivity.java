@@ -40,6 +40,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragments[1] = new HistoryFragment();
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"});
         pager.setAdapter(pagerAdapter);
+
+        //TODO create customer update and delete activity
+        //TODO create history detail page
+        //TODO create invoice pdf
     }
 
     private void setUpNavigation() {
