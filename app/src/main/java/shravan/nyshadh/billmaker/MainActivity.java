@@ -1,8 +1,10 @@
 package shravan.nyshadh.billmaker;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -69,6 +71,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onActionSelected(String action, Invoice invoice) {
-
+        Dialog dialog = new Dialog(MainActivity.this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.edit_number_dialog);
     }
 }

@@ -17,7 +17,6 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
     private Context context;
     private List<Invoice> invoiceList;
     private InvoiceActionListener invoiceActionListener;
-    private int selectedPosition = -1;
 
     public InvoiceHistoryAdapter(Context context, List<Invoice> invoiceList, InvoiceActionListener invoiceActionListener) {
         this.context = context;
