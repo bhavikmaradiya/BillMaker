@@ -6,12 +6,13 @@
     app:cardCornerRadius="9dp"
     app:contentPadding="5dp">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <LinearLayout
+        <RelativeLayout
+            android:id="@+id/detailLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="6dp"
@@ -20,37 +21,43 @@
             android:padding="5dp">
 
             <TextView
+                android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#939393"
                 android:text="Edit before you go"
-                android:textSize="18sp" />
+                android:textSize="16sp" />
 
             <EditText
-                android:id="@+id/etTaxAmount"
+                android:id="@+id/etPhoneNumber"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="7dp"
+                android:layout_height="43dp"
+                android:layout_below="@id/title"
+                android:layout_marginTop="5dp"
+                android:textColor="#373737"
                 android:background="@drawable/edittext_bg"
                 android:gravity="center_vertical"
                 android:hint="Enter phone number"
                 android:inputType="phone"
                 android:nextFocusDown="@id/etEmail"
                 android:padding="8dp"
-                android:textSize="20sp" />
+                android:textSize="18sp" />
 
-        </LinearLayout>
+        </RelativeLayout>
 
         <Button
+            android:id="@+id/sendBtn"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/detailLayout"
             android:layout_marginHorizontal="6dp"
             android:layout_marginTop="19dp"
             android:layout_marginBottom="8dp"
             android:background="@drawable/button_bg"
             android:text="send"
             android:textColor="#FFF"
-            android:textSize="21sp" />
+            android:textSize="17sp" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </androidx.cardview.widget.CardView>
