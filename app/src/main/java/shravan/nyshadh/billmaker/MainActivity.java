@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker;
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,12 +14,14 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
@@ -80,33 +83,53 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onActionSelected(String action, Invoice invoice) {
-        if (action.equals(Common.ACTION_INVOICE_WHATSAPP)) {
+        if (!action.equals(Common.ACTION_INVOICE_DETAIL)) {
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.edit_number_dialog, null, false);
             EditText etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
+            ImageView imgClose = view.findViewById(R.id.imgClose);
             Button sendBtn = view.findViewById(R.id.sendBtn);
             etPhoneNumber.setText(invoice.getNumber());
             Dialog dialog = new Dialog(MainActivity.this);
             dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(true);
+            dialog.setCancelable(false);
             dialog.setContentView(view);
             dialog.show();
+
+            imgClose.setOnClickListener(v -> dialog.dismiss());
+
+            if (action.equals(Common.ACTION_INVOICE_WHATSAPP)) {
+                sendBtn.setText("SEND");
+            } else {
+                sendBtn.setText("CALL");
+            }
+
             sendBtn.setOnClickListener(v -> {
-                boolean installed = appInstalledOrNot("com.whatsapp");
-                if (installed) {
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    if (etPhoneNumber.getText().toString().startsWith("+91")) {
-                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + etPhoneNumber.getText().toString() + "&text="));
-                    } else if (etPhoneNumber.getText().toString().startsWith("91")) {
-                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+" + etPhoneNumber.getText().toString() + "&text="));
+                if (action.equals(Common.ACTION_INVOICE_WHATSAPP)) {
+                    boolean installed = appInstalledOrNot("com.whatsapp");
+                    if (installed) {
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        if (etPhoneNumber.getText().toString().startsWith("+91")) {
+                            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + etPhoneNumber.getText().toString() + "&text="));
+                        } else if (etPhoneNumber.getText().toString().startsWith("91")) {
+                            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+" + etPhoneNumber.getText().toString() + "&text="));
+                        } else {
+                            intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+91" + etPhoneNumber.getText().toString() + "&text="));
+                        }
+                        startActivity(intent);
+                        dialog.dismiss();
                     } else {
-                        intent.setData(Uri.parse("http://api.whatsapp.com/send?phone=" + "+91" + etPhoneNumber.getText().toString() + "&text="));
+                        dialog.dismiss();
+                        Toast.makeText(MainActivity.this, "Whatsapp not installed on your device", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL);
+                    intent.setData(Uri.parse("tel:" + etPhoneNumber.getText().toString()));
+                    if (ActivityCompat.checkSelfPermission(MainActivity.this,
+                            Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        return;
                     }
                     startActivity(intent);
-                    dialog.dismiss();
-                } else {
-                    dialog.dismiss();
-                    Toast.makeText(MainActivity.this, "Whatsapp not installed on your device", Toast.LENGTH_SHORT).show();
                 }
             });
         }
