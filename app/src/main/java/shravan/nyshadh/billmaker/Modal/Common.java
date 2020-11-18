@@ -1,4 +1,4 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Modal;
 
 import java.util.List;
 

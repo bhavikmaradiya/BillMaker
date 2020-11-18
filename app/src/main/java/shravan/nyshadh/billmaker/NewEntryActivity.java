@@ -7,6 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import shravan.nyshadh.billmaker.Adapter.PagerAdapter;
+import shravan.nyshadh.billmaker.Fragment.ManualProductFragment;
+import shravan.nyshadh.billmaker.Fragment.ScanProductFragment;
+import shravan.nyshadh.billmaker.Fragment.SelectCustomerFragment;
+
 public class NewEntryActivity extends AppCompatActivity {
     SwipableViewPager viewPager;
     Button cancelBtn, nextBtn;

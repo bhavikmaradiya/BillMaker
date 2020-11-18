@@ -1,4 +1,4 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Fragment;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -19,6 +19,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.zxing.Result;
 
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
+import shravan.nyshadh.billmaker.Modal.Product;
+import shravan.nyshadh.billmaker.Adapter.ProductListAdapter;
+import shravan.nyshadh.billmaker.R;
 
 
 /**

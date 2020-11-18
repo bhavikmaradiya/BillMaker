@@ -1,4 +1,4 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -15,12 +15,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
+import shravan.nyshadh.billmaker.Modal.Common;
+import shravan.nyshadh.billmaker.Modal.Product;
+import shravan.nyshadh.billmaker.R;
+
 public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.ProductHolder> {
     private Context context;
     private List<Product> productList;
     private ProductOptionsListener productOptionsListener;
 
-    ProductListAdapter(Context context, ProductOptionsListener productOptionsListener) {
+    public ProductListAdapter(Context context, ProductOptionsListener productOptionsListener) {
         this.productList = new ArrayList<>();
         this.context = context;
         this.productOptionsListener = productOptionsListener;
@@ -64,11 +68,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         return productList.size();
     }
 
-    boolean hasProducts() {
+    public boolean hasProducts() {
         return productList.size() > 0;
     }
 
-    void addProduct(Product product) {
+    public void addProduct(Product product) {
         if (productList.size() <= 0) {
             productList.add(product);
             notifyItemInserted(productList.size() + 1);

@@ -1,6 +1,8 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Adapter;
 
 import android.content.Context;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +11,14 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
+
+import shravan.nyshadh.billmaker.Modal.Common;
+import shravan.nyshadh.billmaker.Modal.Invoice;
+import shravan.nyshadh.billmaker.R;
 
 public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAdapter.InvoiceHolder> {
     private Context context;
@@ -30,6 +37,11 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         return new InvoiceHolder(LayoutInflater.from(context).inflate(R.layout.item_invoice, parent, false));
     }
 
+    private float dipToPixels() {
+        DisplayMetrics metrics = this.context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 3, metrics);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull InvoiceHolder holder, int position) {
         Invoice invoice = invoiceList.get(holder.getAdapterPosition());
@@ -40,9 +52,13 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         holder.number.setText(invoice.getNumber());
         holder.name.setText(invoice.getName());
 
+        holder.cardView.setRadius(invoice.isExpanded() ? 7 : 0);
+        holder.cardView.setUseCompatPadding(invoice.isExpanded());
+        holder.cardView.setCardElevation(invoice.isExpanded() ? dipToPixels() : 0);
+
         holder.itemView.setOnClickListener(view -> {
-                invoice.setExpanded(!invoice.isExpanded());
-                notifyItemChanged(position);
+            invoice.setExpanded(!invoice.isExpanded());
+            notifyItemChanged(position);
         });
 
         holder.imgCall.setOnClickListener(view -> invoiceActionListener.onActionSelected(Common.ACTION_INVOICE_CALL, invoice));
@@ -59,6 +75,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         TextView name, number, date, price;
         LinearLayout actionLayout;
         ImageView imgCall, imgWhatsapp, imgDetail;
+        CardView cardView;
 
         public InvoiceHolder(@NonNull View itemView) {
             super(itemView);
@@ -68,6 +85,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
             price = itemView.findViewById(R.id.price);
             imgCall = itemView.findViewById(R.id.imgCall);
             imgDetail = itemView.findViewById(R.id.imgDetail);
+            cardView = itemView.findViewById(R.id.cardView);
             imgWhatsapp = itemView.findViewById(R.id.imgWhatsapp);
             actionLayout = itemView.findViewById(R.id.actionLayout);
         }

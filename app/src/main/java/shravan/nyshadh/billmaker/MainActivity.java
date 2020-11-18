@@ -18,24 +18,30 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
+import java.util.Objects;
+
+import shravan.nyshadh.billmaker.Adapter.InvoiceHistoryAdapter;
+import shravan.nyshadh.billmaker.Adapter.PagerAdapter;
+import shravan.nyshadh.billmaker.Fragment.CustomerListFragment;
+import shravan.nyshadh.billmaker.Fragment.HistoryFragment;
+import shravan.nyshadh.billmaker.Modal.Common;
+import shravan.nyshadh.billmaker.Modal.Invoice;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InvoiceHistoryAdapter.InvoiceActionListener {
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
     ViewPager pager;
     Toolbar toolbar;
-    DrawerLayout drawerLayout;
-    NavigationView navigationView;
+    Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +50,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.toolbar);
         tabLayout = findViewById(R.id.tabLayout);
-        navigationView = findViewById(R.id.nav);
-        drawerLayout = findViewById(R.id.drawer);
         tabLayout.setupWithViewPager(pager);
         setSupportActionBar(toolbar);
-        setUpNavigation();
         Fragment[] fragments = new Fragment[2];
         fragments[0] = new CustomerListFragment();
         fragments[1] = new HistoryFragment(this);
@@ -58,14 +61,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //TODO create customer update and delete activity
         //TODO create history detail page
         //TODO create invoice pdf
-    }
-
-    private void setUpNavigation() {
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawerLayout.addDrawerListener(toggle);
-        toggle.syncState();
-        toggle.setDrawerSlideAnimationEnabled(false);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     @Override
@@ -83,16 +78,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     public void onActionSelected(String action, Invoice invoice) {
+        dialog = new Dialog(MainActivity.this);
         if (!action.equals(Common.ACTION_INVOICE_DETAIL)) {
             View view = LayoutInflater.from(MainActivity.this).inflate(R.layout.edit_number_dialog, null, false);
             EditText etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
             ImageView imgClose = view.findViewById(R.id.imgClose);
             Button sendBtn = view.findViewById(R.id.sendBtn);
             etPhoneNumber.setText(invoice.getNumber());
-            Dialog dialog = new Dialog(MainActivity.this);
-            dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+            Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            dialog.setCancelable(false);
+            dialog.setCancelable(true);
             dialog.setContentView(view);
             dialog.show();
 
@@ -147,5 +142,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             app_installed = false;
         }
         return app_installed;
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if (dialog != null && dialog.isShowing()) {
+            dialog.dismiss();
+        }
     }
 }

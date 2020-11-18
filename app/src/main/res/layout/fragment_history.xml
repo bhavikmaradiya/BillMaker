@@ -3,12 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HistoryFragment">
+    tools:context=".Fragment.HistoryFragment"
+    android:background="#FFFFFF">
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/rvInvoices"
+        android:background="#FFFFFF"
         tools:listitem="@layout/item_invoice"
         />
 

@@ -1,6 +1,6 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Modal;
 
-class Customer {
+public class Customer {
     private String name, phoneNum;
 
     public Customer(String name, String phoneNum) {
