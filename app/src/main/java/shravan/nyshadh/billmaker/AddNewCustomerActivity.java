@@ -8,7 +8,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -23,7 +22,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
@@ -34,7 +35,6 @@ import static shravan.nyshadh.billmaker.Modal.Common.IS_NEW;
 
 public class AddNewCustomerActivity extends AppCompatActivity {
     RadioGroup radioGrp;
-    RadioButton checkedGender;
     EditText etFullName, etPhoneNumber, etSecondaryPhoneNumber, etEmail, etAge, etAddress, etRemarks, etRightIPD, etLeftIPD;
     Spinner spPrescribers;
     Button btnSave;
@@ -50,6 +50,31 @@ public class AddNewCustomerActivity extends AppCompatActivity {
         initView();
         if (!isNew) setValues();
 
+        btnSave.setOnClickListener(view -> {
+            if (isNew) {
+                StringRequest request = new StringRequest(Common.ADD_CUSTOMER, response -> {
+                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+                    protected Map<String, String> getParams() {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("cname", etFullName.getText().toString());
+                        map.put("cphone", etPhoneNumber.getText().toString());
+                        map.put("cphone2", etSecondaryPhoneNumber.getText().toString());
+                        map.put("cemail", etEmail.getText().toString());
+                        map.put("cage", etAge.getText().toString());
+                        map.put("cgender", radioGrp.getCheckedRadioButtonId() == R.id.male ? "male" : "female");
+                        map.put("caddress", etAddress.getText().toString());
+                        map.put("cremarks", etRemarks.getText().toString());
+                        map.put("right_IPD", etRightIPD.getText().toString());
+                        map.put("left_IPD", etLeftIPD.getText().toString());
+                        map.put("prescriber_id", String.valueOf((Integer)spPrescribers.getSelectedItem()));
+                        return map;
+                    }
+                };
+
+                Volley.newRequestQueue(getApplicationContext()).add(request);
+            }
+        });
 
     }
 

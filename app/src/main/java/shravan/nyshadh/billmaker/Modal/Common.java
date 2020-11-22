@@ -15,5 +15,7 @@ public class Common {
     private static final String API = BASE_URL + "api/";
     public static final String GET_CUSTOMERS = API + "get-customers";
     public static final String GET_PRESCRIBERS = API + "get-prescribers";
+    public static final String ADD_CUSTOMER = API + "add-customers";
+
 
 }
