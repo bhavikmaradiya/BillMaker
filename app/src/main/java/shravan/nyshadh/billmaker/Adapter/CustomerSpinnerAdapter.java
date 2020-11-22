@@ -37,13 +37,13 @@ public class CustomerSpinnerAdapter extends ArrayAdapter<Customer> {
         TextView name = view.findViewById(R.id.customer_name);
         TextView number = view.findViewById(R.id.customer_number);
         Customer customer = getItem(position);
-        if (customer.getName() == null && customer.getPhoneNum() == null) {
+        if (customer.getCustomerName() == null && customer.getCustomerPhone() == null) {
             name.setText("Select Customer");
             number.setVisibility(View.GONE);
         } else {
             number.setVisibility(View.VISIBLE);
-            name.setText(customer.getName());
-            number.setText(customer.getPhoneNum());
+            name.setText(customer.getCustomerName());
+            number.setText(customer.getCustomerPhone());
         }
         return view;
     }

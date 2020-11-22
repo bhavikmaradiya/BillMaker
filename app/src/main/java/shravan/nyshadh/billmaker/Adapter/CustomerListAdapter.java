@@ -13,6 +13,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import shravan.nyshadh.billmaker.AddNewCustomerActivity;
+import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.NewEntryActivity;
 import shravan.nyshadh.billmaker.R;
@@ -34,8 +36,9 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     @Override
     public void onBindViewHolder(@NonNull CustomerHolder holder, int position) {
-        holder.customerName.setText(customerList.get(position).getName());
-        holder.customerNumber.setText(customerList.get(position).getPhoneNum());
+        holder.customerName.setText(customerList.get(position).getCustomerName());
+        holder.customerNumber.setText(customerList.get(position).getCustomerPhone());
+        holder.imgEdit.setOnClickListener(view -> context.startActivity(new Intent(context, AddNewCustomerActivity.class).putExtra(Common.CUSTOMER, customerList.get(position)).putExtra(Common.IS_NEW, false).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
         holder.imgCreateInvoice.setOnClickListener(view -> context.startActivity(new Intent(context, NewEntryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
     }
 
@@ -46,13 +49,14 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
 
     public static class CustomerHolder extends RecyclerView.ViewHolder {
         TextView customerName, customerNumber;
-        ImageView imgCreateInvoice;
+        ImageView imgCreateInvoice, imgEdit;
 
         public CustomerHolder(@NonNull View itemView) {
             super(itemView);
             customerName = itemView.findViewById(R.id.customer_name);
             customerNumber = itemView.findViewById(R.id.customer_number);
             imgCreateInvoice = itemView.findViewById(R.id.imgCreateInvoice);
+            imgEdit = itemView.findViewById(R.id.imgEdit);
         }
     }
 }
