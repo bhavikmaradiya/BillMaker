@@ -2,6 +2,7 @@ package shravan.nyshadh.billmaker;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,28 +52,61 @@ public class AddNewCustomerActivity extends AppCompatActivity {
         if (!isNew) setValues();
 
         btnSave.setOnClickListener(view -> {
-            if (isNew) {
-                StringRequest request = new StringRequest(Common.ADD_CUSTOMER, response -> {
-                    Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
-                    protected Map<String, String> getParams() {
-                        Map<String, String> map = new HashMap<>();
-                        map.put("cname", etFullName.getText().toString());
-                        map.put("cphone", etPhoneNumber.getText().toString());
-                        map.put("cphone2", etSecondaryPhoneNumber.getText().toString());
-                        map.put("cemail", etEmail.getText().toString());
-                        map.put("cage", etAge.getText().toString());
-                        map.put("cgender", radioGrp.getCheckedRadioButtonId() == R.id.male ? "male" : "female");
-                        map.put("caddress", etAddress.getText().toString());
-                        map.put("cremarks", etRemarks.getText().toString());
-                        map.put("right_IPD", etRightIPD.getText().toString());
-                        map.put("left_IPD", etLeftIPD.getText().toString());
-                        map.put("prescriber_id", String.valueOf((Integer)spPrescribers.getSelectedItem()));
-                        return map;
-                    }
-                };
+            if (TextUtils.isEmpty(etFullName.getText().toString().trim())) {
+                etFullName.requestFocus();
+                etFullName.setError("Enter your name");
+            } else if (TextUtils.isEmpty(etPhoneNumber.getText().toString().trim())) {
+                etPhoneNumber.requestFocus();
+                etPhoneNumber.setError("Enter your phone number");
+            } else if (TextUtils.isEmpty(etSecondaryPhoneNumber.getText().toString().trim())) {
+                etSecondaryPhoneNumber.requestFocus();
+                etSecondaryPhoneNumber.setError("Enter your second phone number");
+            } else if (TextUtils.isEmpty(etEmail.getText().toString().trim())) {
+                etEmail.requestFocus();
+                etEmail.setError("Enter your email address");
+            } else if (TextUtils.isEmpty(etAge.getText().toString().trim())) {
+                etAge.requestFocus();
+                etAge.setError("Enter your age");
+            } else if (radioGrp.getCheckedRadioButtonId() == -1) {
+                Toast.makeText(this, "Select your gender", Toast.LENGTH_SHORT).show();
+            } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
+                etAddress.requestFocus();
+                etAddress.setError("Enter your address");
+            } else if (TextUtils.isEmpty(etRemarks.getText().toString().trim())) {
+                etRemarks.requestFocus();
+                etRemarks.setError("Enter your remarks");
+            } else if (TextUtils.isEmpty(etRightIPD.getText().toString().trim())) {
+                etRightIPD.requestFocus();
+                etRightIPD.setError("Enter right IPD");
+            } else if (TextUtils.isEmpty(etLeftIPD.getText().toString().trim())) {
+                etLeftIPD.requestFocus();
+                etLeftIPD.setError("Enter left IPD");
+            } else {
+                if (isNew) {
+                    StringRequest request = new StringRequest(Common.ADD_CUSTOMER, response -> {
+                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
+                    }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
+                        protected Map<String, String> getParams() {
+                            Map<String, String> map = new HashMap<>();
+                            map.put("cname", etFullName.getText().toString());
+                            map.put("cphone", etPhoneNumber.getText().toString());
+                            map.put("cphone2", etSecondaryPhoneNumber.getText().toString());
+                            map.put("cemail", etEmail.getText().toString());
+                            map.put("cage", etAge.getText().toString());
+                            map.put("cgender", radioGrp.getCheckedRadioButtonId() == R.id.male ? "male" : "female");
+                            map.put("caddress", etAddress.getText().toString());
+                            map.put("cremarks", etRemarks.getText().toString());
+                            map.put("right_IPD", etRightIPD.getText().toString());
+                            map.put("left_IPD", etLeftIPD.getText().toString());
+                            if (spPrescribers.getSelectedItem() != null) {
+                                map.put("prescriber_id", String.valueOf((Integer) spPrescribers.getSelectedItem()));
+                            }
+                            return map;
+                        }
+                    };
 
-                Volley.newRequestQueue(getApplicationContext()).add(request);
+                    Volley.newRequestQueue(getApplicationContext()).add(request);
+                }
             }
         });
 
