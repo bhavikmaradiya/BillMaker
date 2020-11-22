@@ -371,7 +371,7 @@
                 <Spinner
                     android:id="@+id/spPrescribers"
                     android:layout_width="match_parent"
-                    android:layout_height="40dp"
+                    android:layout_height="42dp"
                     android:layout_marginTop="5dp"
                     android:background="@drawable/edittext_bg"
                     android:padding="8dp" />

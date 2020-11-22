@@ -96,19 +96,20 @@ public class AddNewCustomerActivity extends AppCompatActivity {
                 for (int i = 0; i < array.length(); i++) {
                     JSONObject object = array.getJSONObject(i);
                     Prescriber prescriber = new Prescriber();
-                    prescriber.setPrescriberName(object.getString(""));
-                    prescriber.setPrescriberId(object.getInt(""));
-                    prescriber.setPrescriberEmail(object.getString(""));
-                    prescriber.setPrescriberAddress(object.getString(""));
-                    prescriber.setPrescriberPhone(object.getString(""));
+                    prescriber.setPrescriberName(object.getString("prescriber_name"));
+                    prescriber.setPrescriberId(object.getInt("prescriber_id"));
+                    prescriber.setPrescriberEmail(object.getString("prescriber_email"));
+                    prescriber.setPrescriberAddress(object.getString("prescriber_address"));
+                    prescriber.setPrescriberPhone(object.getString("prescriber_phone"));
                     prescriberList.add(prescriber);
-                    if (i == array.length()) {
-                        prescriberAdapter = new PrescriberSpinnerAdapter(getApplicationContext(), prescriberList);
-                        spPrescribers.setAdapter(prescriberAdapter);
-                        prescriberAdapter.notifyDataSetChanged();
-                    }
+                }
+                if (prescriberAdapter == null) {
+                    prescriberAdapter = new PrescriberSpinnerAdapter(getApplicationContext(), prescriberList);
+                    spPrescribers.setAdapter(prescriberAdapter);
+                    prescriberAdapter.notifyDataSetChanged();
                 }
             } catch (Exception e) {
+                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
         }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show());
