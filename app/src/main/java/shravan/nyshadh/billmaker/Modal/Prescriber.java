@@ -1,18 +1,18 @@
 package shravan.nyshadh.billmaker.Modal;
 
-public class Presciber {
+public class Prescriber {
     private Integer prescriberId;
     private String prescriberName;
     private String prescriberEmail;
     private String prescriberPhone;
     private String prescriberAddress;
 
-    public Presciber(Integer prescriberId, String prescriberName) {
+    public Prescriber(Integer prescriberId, String prescriberName) {
         this.prescriberId = prescriberId;
         this.prescriberName = prescriberName;
     }
 
-    public Presciber() {
+    public Prescriber() {
     }
 
     public Integer getPrescriberId() {

@@ -14,5 +14,6 @@ public class Common {
     private static final String BASE_URL = "http://192.168.1.6:8000/";
     private static final String API = BASE_URL + "api/";
     public static final String GET_CUSTOMERS = API + "get-customers";
+    public static final String GET_PRESCRIBERS = API + "get-prescribers";
 
 }
