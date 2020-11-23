@@ -12,13 +12,13 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
+import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.R;
 
 public class SelectCustomerAdapter extends RecyclerView.Adapter<SelectCustomerAdapter.CustomerHolder> {
     Context context;
     List<Customer> customerList;
-    int selected = -1;
     CustomerListener customerListener;
 
     public SelectCustomerAdapter(Context context, List<Customer> customerList, CustomerListener customerListener) {
@@ -33,18 +33,21 @@ public class SelectCustomerAdapter extends RecyclerView.Adapter<SelectCustomerAd
         return new CustomerHolder(LayoutInflater.from(context).inflate(R.layout.item_customer, parent, false));
     }
 
+    public void updateList(List<Customer> list) {
+        this.customerList = list;
+        notifyDataSetChanged();
+    }
+
     @Override
     public void onBindViewHolder(@NonNull CustomerHolder holder, int position) {
-        holder.imgCheck.setVisibility(selected == position ? View.VISIBLE : View.INVISIBLE);
+        holder.imgCheck.setVisibility(Common.selectedCustomer != null && Common.selectedCustomer.getCustomerId().equals(customerList.get(position).getCustomerId()) ? View.VISIBLE : View.INVISIBLE);
         holder.customerName.setText(customerList.get(position).getCustomerName());
         holder.customerNumber.setText(customerList.get(position).getCustomerPhone());
 
         holder.itemView.setOnClickListener(view -> {
-            if (selected != position) {
-                selected = position;
-                customerListener.onCustomerSelect(customerList.get(position));
-                notifyDataSetChanged();
-            }
+            Common.selectedCustomer = customerList.get(position);
+            customerListener.onCustomerSelect(customerList.get(position));
+            notifyDataSetChanged();
         });
     }
 

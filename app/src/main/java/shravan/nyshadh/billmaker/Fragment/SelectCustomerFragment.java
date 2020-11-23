@@ -3,9 +3,12 @@ package shravan.nyshadh.billmaker.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -39,6 +42,7 @@ public class SelectCustomerFragment extends Fragment {
     SelectCustomerAdapter adapter;
     List<Customer> customerList;
     SwipeRefreshLayout swipeRefreshLayout;
+    EditText searchBar;
 
     public SelectCustomerFragment() {
         customerList = new ArrayList<>();
@@ -50,6 +54,7 @@ public class SelectCustomerFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_select_customer, container, false);
         rvCustomers = view.findViewById(R.id.rvCustomers);
+        searchBar = view.findViewById(R.id.searchBar);
         swipeRefreshLayout = view.findViewById(R.id.pullToRefresh);
         rvCustomers.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCustomers.setHasFixedSize(true);
@@ -69,6 +74,34 @@ public class SelectCustomerFragment extends Fragment {
 
         });
 
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//                if (!searchBar.getText().toString().trim().isEmpty()) {
+//                    filter(s.toString());
+//                } else {
+//                    CustomerTask task = new CustomerTask();
+//                    task.execute();
+//                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                // TODO Auto-generated method stub
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!searchBar.getText().toString().trim().isEmpty()) {
+                    filter(s.toString());
+                } else {
+                    CustomerTask task = new CustomerTask();
+                    task.execute();
+                }
+            }
+        });
+
         if (Common.isNetworkAvailable(getActivity())) {
             CustomerTask task = new CustomerTask();
             task.execute();
@@ -76,6 +109,22 @@ public class SelectCustomerFragment extends Fragment {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
         return view;
+    }
+
+    private void filter(String text) {
+        List<Customer> temp = new ArrayList<>();
+        for (Customer customer : customerList) {
+
+            if (customer.getCustomerName().toLowerCase().startsWith(text.toLowerCase())) {
+                temp.add(customer);
+            } else if (customer.getCustomerPhone().toLowerCase().startsWith(text.toLowerCase())) {
+                temp.add(customer);
+            } else if (customer.getCustomerPhone2().toLowerCase().startsWith(text.toLowerCase())) {
+                temp.add(customer);
+            }
+        }
+        //update recyclerview
+        adapter.updateList(temp);
     }
 
     @Override
@@ -112,7 +161,7 @@ public class SelectCustomerFragment extends Fragment {
                         customer.setCustomerLeftIPD(object.getString("cust_left_IPD"));
                         customer.setPrescriberId(object.getInt("prescriber_id"));
                         customerList.add(customer);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateList(customerList);
                     }
                 } catch (Exception e) {
                     new Handler().post(() -> Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show());
@@ -128,7 +177,7 @@ public class SelectCustomerFragment extends Fragment {
         @Override
         protected void onPostExecute(List<Customer> customers) {
             super.onPostExecute(customers);
-            adapter.notifyDataSetChanged();
+            adapter.updateList(customerList);
             swipeRefreshLayout.setRefreshing(false);
         }
     }

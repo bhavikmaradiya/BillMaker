@@ -3,6 +3,7 @@ package shravan.nyshadh.billmaker;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +14,7 @@ import shravan.nyshadh.billmaker.Adapter.PagerAdapter;
 import shravan.nyshadh.billmaker.Fragment.ManualProductFragment;
 import shravan.nyshadh.billmaker.Fragment.ScanProductFragment;
 import shravan.nyshadh.billmaker.Fragment.SelectCustomerFragment;
+import shravan.nyshadh.billmaker.Modal.Common;
 
 public class NewEntryActivity extends AppCompatActivity {
     SwipableViewPager viewPager;
@@ -38,11 +40,11 @@ public class NewEntryActivity extends AppCompatActivity {
 
     private void addListener() {
         nextBtn.setOnClickListener(view -> {
-//            if (Common.selectedCustomer != null) {
-            viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-//            } else {
-//                Toast.makeText(this, "First select customer to continue!", Toast.LENGTH_SHORT).show();
-//            }
+            if (Common.selectedCustomer != null) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            } else {
+                Toast.makeText(this, "First select customer to continue!", Toast.LENGTH_SHORT).show();
+            }
         });
         cancelBtn.setOnClickListener(view -> {
             if (viewPager.getCurrentItem() > 0)
