@@ -1,15 +1,46 @@
 package shravan.nyshadh.billmaker.Modal;
 
-public class Invoice {
-    private String name, number, price, date;
-    boolean isExpanded = false;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
-    public Invoice(String name, String number, String price, String date) {
-        this.name = name;
-        this.number = number;
-        this.price = price;
-        this.date = date;
-    }
+import java.util.List;
+
+public class Invoice {
+    @SerializedName("invoice_id")
+    @Expose
+    private Integer invoiceId;
+    @SerializedName("cust_id")
+    @Expose
+    private Customer customer;
+    @SerializedName("user_id")
+    @Expose
+    private Integer userId;
+    @SerializedName("product_id")
+    @Expose
+    private List<Product> products = null;
+    @SerializedName("quantity")
+    @Expose
+    private String quantity;
+    @SerializedName("discount_percentage")
+    @Expose
+    private String discountPercentage;
+    @SerializedName("tax_percentage")
+    @Expose
+    private String taxPercentage;
+    @SerializedName("remarks")
+    @Expose
+    private String remarks;
+    @SerializedName("time")
+    @Expose
+    private String time;
+    @SerializedName("place")
+    @Expose
+    private String place;
+    @SerializedName("status")
+    @Expose
+    private String status;
+
+    public boolean isExpanded = false;
 
     public boolean isExpanded() {
         return isExpanded;
@@ -19,38 +50,91 @@ public class Invoice {
         isExpanded = expanded;
     }
 
-    public Invoice() {
+    public Integer getInvoiceId() {
+        return invoiceId;
     }
 
-    public String getName() {
-        return name;
+    public void setInvoiceId(Integer invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public String getNumber() {
-        return number;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public void setNumber(String number) {
-        this.number = number;
+    public Integer getUserId() {
+        return userId;
     }
 
-    public String getPrice() {
-        return price;
+    public void setUserId(Integer userId) {
+        this.userId = userId;
     }
 
-    public void setPrice(String price) {
-        this.price = price;
+    public List<Product> getProducts() {
+        return products;
     }
 
-    public String getDate() {
-        return date;
+    public void setProducts(List<Product> product) {
+        this.products = product;
     }
 
-    public void setDate(String date) {
-        this.date = date;
+    public String getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(String quantity) {
+        this.quantity = quantity;
+    }
+
+    public String getDiscountPercentage() {
+        return discountPercentage;
+    }
+
+    public void setDiscountPercentage(String discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public String getTaxPercentage() {
+        return taxPercentage;
+    }
+
+    public void setTaxPercentage(String taxPercentage) {
+        this.taxPercentage = taxPercentage;
+    }
+
+    public String getRemarks() {
+        return remarks;
+    }
+
+    public void setRemarks(String remarks) {
+        this.remarks = remarks;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
+    }
+
+    public String getPlace() {
+        return place;
+    }
+
+    public void setPlace(String place) {
+        this.place = place;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

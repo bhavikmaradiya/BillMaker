@@ -15,7 +15,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -85,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             EditText etPhoneNumber = view.findViewById(R.id.etPhoneNumber);
             ImageView imgClose = view.findViewById(R.id.imgClose);
             Button sendBtn = view.findViewById(R.id.sendBtn);
-            etPhoneNumber.setText(invoice.getNumber());
+            etPhoneNumber.setText(invoice.getCustomer() != null ? invoice.getCustomer().getCustomerPhone() : "");
             Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
             dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
             dialog.setCancelable(true);

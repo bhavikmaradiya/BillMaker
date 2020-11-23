@@ -7,12 +7,19 @@
     android:background="#FFFFFF"
     tools:context=".Fragment.HistoryFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvInvoices"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#FFFFFF"
-        tools:listitem="@layout/item_invoice" />
+        android:layout_height="wrap_content">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvInvoices"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#FFFFFF"
+            tools:listitem="@layout/item_invoice" />
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"

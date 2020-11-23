@@ -47,14 +47,10 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         Invoice invoice = invoiceList.get(holder.getAdapterPosition());
 
         holder.actionLayout.setVisibility(invoice.isExpanded() ? View.VISIBLE : View.GONE);
-        holder.price.setText(String.format("Total : %s", invoice.getPrice()));
-        holder.date.setText(invoice.getDate());
-        holder.number.setText(invoice.getNumber());
-        holder.name.setText(invoice.getName());
-
-        holder.cardView.setRadius(invoice.isExpanded() ? 7 : 0);
-        holder.cardView.setUseCompatPadding(invoice.isExpanded());
-        holder.cardView.setCardElevation(invoice.isExpanded() ? dipToPixels() : 0);
+        holder.price.setText(String.format("Total : %s", "50"));
+        holder.date.setText(invoice.getTime().replaceAll("-", "/"));
+        holder.number.setText(invoice.getCustomer() != null ? invoice.getCustomer().getCustomerPhone() : "");
+        holder.name.setText(invoice.getCustomer() != null ? invoice.getCustomer().getCustomerName() : "");
 
         holder.itemView.setOnClickListener(view -> {
             invoice.setExpanded(!invoice.isExpanded());

@@ -1,19 +1,46 @@
 package shravan.nyshadh.billmaker.Modal;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.io.Serializable;
 
 public class Customer implements Serializable {
+    @SerializedName("cust_id")
+    @Expose
     private Integer CustomerId;
+    @SerializedName("cust_name")
+    @Expose
     private String CustomerName;
+    @SerializedName("cust_phone")
+    @Expose
     private String CustomerPhone;
+    @SerializedName("cust_phone2")
+    @Expose
     private String CustomerPhone2;
+    @SerializedName("cust_email")
+    @Expose
     private String CustomerEmail;
+    @SerializedName("cust_age")
+    @Expose
     private String CustomerAge;
+    @SerializedName("cust_gender")
+    @Expose
     private String CustomerGender;
+    @SerializedName("cust_address")
+    @Expose
     private String CustomerAddress;
+    @SerializedName("cust_remarks")
+    @Expose
     private String CustomerRemarks;
+    @SerializedName("cust_right_IPD")
+    @Expose
     private String CustomerRightIPD;
+    @SerializedName("cust_left_IPD")
+    @Expose
     private String CustomerLeftIPD;
+    @SerializedName("prescriber_id")
+    @Expose
     private Integer prescriberId;
 
     public Integer getCustomerId() {

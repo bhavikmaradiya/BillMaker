@@ -59,8 +59,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             Common.SELECTED_PRODUCTS = productList;
         });
         holder.productQuantity.setText(String.valueOf(product.getQuantity()));
-        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "us")).format(product.getTotalAmount()));
-        holder.productName.setText(product.getProductName());
+        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "us")).format(product.getTotalprice()));
+        holder.productName.setText(product.getName());
     }
 
     @Override
@@ -80,7 +80,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         } else {
             boolean isAdded = false;
             for (int i = 0; i < productList.size(); i++) {
-                if (productList.get(i).getSrNo().equals(product.getSrNo())) {
+                if (productList.get(i).getProductId().equals(product.getProductId())) {
                     increaseQuantity(i);
                     productOptionsListener.onProductAdded();
                     isAdded = true;

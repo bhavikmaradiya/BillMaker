@@ -1,46 +1,173 @@
 package shravan.nyshadh.billmaker.Modal;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 public class Product {
-    private String srNo, productName;
-    private int quantity;
-    private long totalAmount;
+    @SerializedName("product_id")
+    @Expose
+    private Integer productId;
+    @SerializedName("name")
+    @Expose
+    private String name;
+    @SerializedName("brand")
+    @Expose
+    private String brand;
+    @SerializedName("unitprice")
+    @Expose
+    private String unitprice;
+    @SerializedName("sellprice")
+    @Expose
+    private String sellprice;
+    @SerializedName("quantity")
+    @Expose
+    private Integer quantity;
+    @SerializedName("totalprice")
+    @Expose
+    private String totalprice;
+    @SerializedName("lense_index")
+    @Expose
+    private String lenseIndex;
+    @SerializedName("coating")
+    @Expose
+    private String coating;
+    @SerializedName("color")
+    @Expose
+    private String color;
+    @SerializedName("basecurve")
+    @Expose
+    private String basecurve;
+    @SerializedName("biometer")
+    @Expose
+    private String biometer;
+    @SerializedName("watercontent")
+    @Expose
+    private String watercontent;
+    @SerializedName("type")
+    @Expose
+    private String type;
+    @SerializedName("comments")
+    @Expose
+    private String comments;
 
-    public Product(String srNo, String productName, int quantity, long totalAmount) {
-        this.srNo = srNo;
-        this.productName = productName;
-        this.quantity = quantity;
-        this.totalAmount = totalAmount;
+    public Integer getProductId() {
+        return productId;
     }
 
-    public String getSrNo() {
-        return srNo;
+    public void setProductId(Integer productId) {
+        this.productId = productId;
     }
 
-    public void setSrNo(String srNo) {
-        this.srNo = srNo;
+    public String getName() {
+        return name;
     }
 
-    public String getProductName() {
-        return productName;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public void setProductName(String productName) {
-        this.productName = productName;
+    public String getBrand() {
+        return brand;
     }
 
-    public int getQuantity() {
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
+    public String getUnitprice() {
+        return unitprice;
+    }
+
+    public void setUnitprice(String unitprice) {
+        this.unitprice = unitprice;
+    }
+
+    public String getSellprice() {
+        return sellprice;
+    }
+
+    public void setSellprice(String sellprice) {
+        this.sellprice = sellprice;
+    }
+
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(Integer quantity) {
         this.quantity = quantity;
     }
 
-    public long getTotalAmount() {
-        return totalAmount;
+    public String getTotalprice() {
+        return totalprice;
     }
 
-    public void setTotalAmount(long totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setTotalprice(String totalprice) {
+        this.totalprice = totalprice;
     }
+
+    public String getLenseIndex() {
+        return lenseIndex;
+    }
+
+    public void setLenseIndex(String lenseIndex) {
+        this.lenseIndex = lenseIndex;
+    }
+
+    public String getCoating() {
+        return coating;
+    }
+
+    public void setCoating(String coating) {
+        this.coating = coating;
+    }
+
+    public String getColor() {
+        return color;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public String getBasecurve() {
+        return basecurve;
+    }
+
+    public void setBasecurve(String basecurve) {
+        this.basecurve = basecurve;
+    }
+
+    public String getBiometer() {
+        return biometer;
+    }
+
+    public void setBiometer(String biometer) {
+        this.biometer = biometer;
+    }
+
+    public String getWatercontent() {
+        return watercontent;
+    }
+
+    public void setWatercontent(String watercontent) {
+        this.watercontent = watercontent;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
 }

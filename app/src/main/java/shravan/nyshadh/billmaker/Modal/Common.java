@@ -22,6 +22,8 @@ public class Common {
     public static final String GET_PRESCRIBERS = API + "get-prescribers";
     public static final String ADD_CUSTOMER = API + "add-customers";
     public static final String UPDATE_CUSTOMER = API + "update-customers/";
+    public static final String GET_INVOICES = API + "get-invoice";
+
 
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager
