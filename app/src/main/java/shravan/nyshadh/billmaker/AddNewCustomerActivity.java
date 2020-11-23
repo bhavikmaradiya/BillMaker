@@ -2,6 +2,7 @@ package shravan.nyshadh.billmaker;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -45,6 +46,7 @@ public class AddNewCustomerActivity extends AppCompatActivity {
     boolean isNew;
     PrescriberSpinnerAdapter prescriberAdapter;
     Customer customer;
+    private boolean onBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,7 +154,7 @@ public class AddNewCustomerActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         customer = !isNew ? (Customer) getIntent().getSerializableExtra(Common.CUSTOMER) : null;
         setTitle(isNew ? "Add Customer" : "Edit");
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getPrecriberList();
     }
 
@@ -189,6 +191,22 @@ public class AddNewCustomerActivity extends AppCompatActivity {
             }
         }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show());
         Volley.newRequestQueue(getApplicationContext()).add(prescriberRequest);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (onBackPressed) {
+            super.onBackPressed();
+        } else if (!onBackPressed) {
+            onBackPressed = true;
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onBackPressed = false;
+                }
+            }, 3000);
+        }
     }
 
     private static class PrescriberSpinnerAdapter extends BaseAdapter {

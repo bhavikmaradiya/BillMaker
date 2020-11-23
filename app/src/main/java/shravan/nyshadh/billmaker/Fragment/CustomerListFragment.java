@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker.Fragment;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import shravan.nyshadh.billmaker.Adapter.CustomerListAdapter;
+import shravan.nyshadh.billmaker.AddNewCustomerActivity;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.R;
@@ -38,6 +41,7 @@ public class CustomerListFragment extends Fragment {
     List<Customer> customerList;
     CustomerListAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
+    FloatingActionButton fab;
 
     public CustomerListFragment() {
         customerList = new ArrayList<>();
@@ -49,26 +53,42 @@ public class CustomerListFragment extends Fragment {
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_customer_list, container, false);
         rvCustomersList = view.findViewById(R.id.rvCustomersList);
+        fab = view.findViewById(R.id.fab);
         swipeRefreshLayout = view.findViewById(R.id.pullToRefresh);
         rvCustomersList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCustomersList.setHasFixedSize(true);
         adapter = new CustomerListAdapter(getActivity(), customerList);
         rvCustomersList.setAdapter(adapter);
 
+        rvCustomersList.addOnScrollListener(new RecyclerView.OnScrollListener(){
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+                if (dy > 0)
+                    fab.hide();
+                else if (dy < 0)
+                    fab.show();
+            }
+        });
+
         swipeRefreshLayout.setOnRefreshListener(() -> {
             if (Common.isNetworkAvailable(getActivity())) {
                 CustomerTask task = new CustomerTask();
                 task.execute();
-            }else {
+            } else {
                 Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
 
         });
+
+        fab.setOnClickListener(v -> {
+            startActivity(new Intent(getActivity(), AddNewCustomerActivity.class).putExtra(Common.IS_NEW, true).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        });
+
         if (Common.isNetworkAvailable(getActivity())) {
             CustomerTask task = new CustomerTask();
             task.execute();
-        }else {
+        } else {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
         return view;
@@ -80,7 +100,7 @@ public class CustomerListFragment extends Fragment {
         if (Common.isNetworkAvailable(getActivity())) {
             CustomerTask task = new CustomerTask();
             task.execute();
-        }else {
+        } else {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
     }

@@ -27,7 +27,7 @@ public class NewEntryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
         setTitle("Invoice");
-//        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         cancelBtn = findViewById(R.id.cancelBtn);
         nextBtn = findViewById(R.id.nextBtn);
         viewPager = findViewById(R.id.viewPager);
@@ -87,7 +87,7 @@ public class NewEntryActivity extends AppCompatActivity {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         } else if (onBackPressed) {
             super.onBackPressed();
-        } else if (!onBackPressed){
+        } else if (!onBackPressed) {
             onBackPressed = true;
             Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
