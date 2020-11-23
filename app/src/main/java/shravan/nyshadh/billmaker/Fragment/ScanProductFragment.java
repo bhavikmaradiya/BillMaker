@@ -93,7 +93,6 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     public void handleResult(Result rawResult) {
         if (productListAdapter != null) {
             mScannerView.stopCamera();
-            Toast.makeText(getActivity(), rawResult.getText(), Toast.LENGTH_SHORT).show();
             Product product = new Product(rawResult.getText(), rawResult.getText(), 1, 500);
             productListAdapter.addProduct(product);
             if (productListAdapter.hasProducts()) {

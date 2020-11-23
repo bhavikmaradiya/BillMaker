@@ -4,13 +4,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Button;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.PagerAdapter;
 import shravan.nyshadh.billmaker.Fragment.ManualProductFragment;
 import shravan.nyshadh.billmaker.Fragment.ScanProductFragment;
@@ -49,7 +49,7 @@ public class NewEntryActivity extends AppCompatActivity {
             if (Common.selectedCustomer != null) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
             } else {
-                Toast.makeText(this, "First select customer to continue!", Toast.LENGTH_SHORT).show();
+                Toasty.info(this, "First select customer to continue!", Toasty.LENGTH_SHORT).show();
             }
         });
         cancelBtn.setOnClickListener(view -> {
@@ -86,10 +86,11 @@ public class NewEntryActivity extends AppCompatActivity {
         if (viewPager.getCurrentItem() > 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         } else if (onBackPressed) {
+            Common.selectedCustomer = null;
             super.onBackPressed();
         } else if (!onBackPressed) {
             onBackPressed = true;
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toasty.info(this, "Press back again to exit", Toasty.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

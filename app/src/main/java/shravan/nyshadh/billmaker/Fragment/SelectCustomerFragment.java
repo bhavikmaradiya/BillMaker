@@ -26,6 +26,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.SelectCustomerAdapter;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
@@ -70,7 +71,7 @@ public class SelectCustomerFragment extends Fragment {
                 CustomerTask task = new CustomerTask();
                 task.execute();
             } else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -92,8 +93,12 @@ public class SelectCustomerFragment extends Fragment {
                 if (!searchBar.getText().toString().trim().isEmpty()) {
                     filter(searchBar.getText().toString().toLowerCase());
                 } else {
-                    CustomerTask task = new CustomerTask();
-                    task.execute();
+                    if (Common.isNetworkAvailable(getActivity())) {
+                        CustomerTask task = new CustomerTask();
+                        task.execute();
+                    } else {
+                        Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -102,7 +107,7 @@ public class SelectCustomerFragment extends Fragment {
             CustomerTask task = new CustomerTask();
             task.execute();
         } else {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
         }
         return view;
     }
@@ -113,8 +118,8 @@ public class SelectCustomerFragment extends Fragment {
         if (Common.isNetworkAvailable(getActivity())) {
             CustomerTask task = new CustomerTask();
             task.execute();
-        }else {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+        } else {
+            Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
         }
     }
 
@@ -166,12 +171,11 @@ public class SelectCustomerFragment extends Fragment {
                         adapter.updateList(customerList);
                     }
                 } catch (Exception e) {
-                    new Handler().post(() -> Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show());
                     e.printStackTrace();
                 }
 
 
-            }, error -> new Handler().post(() -> Toast.makeText(activity, error.getMessage(), Toast.LENGTH_LONG).show()));
+            }, error -> getActivity().runOnUiThread(() -> Toasty.error(activity, "Failed to load!", Toasty.LENGTH_SHORT).show()));
             Volley.newRequestQueue(activity).add(request);
             return customerList;
         }

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -30,10 +31,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.Modal.Prescriber;
 
+import static com.android.volley.Request.Method.POST;
 import static shravan.nyshadh.billmaker.Modal.Common.GET_PRESCRIBERS;
 import static shravan.nyshadh.billmaker.Modal.Common.IS_NEW;
 
@@ -72,7 +75,7 @@ public class AddNewCustomerActivity extends AppCompatActivity {
                 etAge.requestFocus();
                 etAge.setError("Enter your age");
             } else if (radioGrp.getCheckedRadioButtonId() == -1) {
-                Toast.makeText(this, "Select your gender", Toast.LENGTH_SHORT).show();
+                Toasty.info(this, "Select your gender", Toasty.LENGTH_SHORT).show();
             } else if (TextUtils.isEmpty(etAddress.getText().toString().trim())) {
                 etAddress.requestFocus();
                 etAddress.setError("Enter your address");
@@ -85,36 +88,49 @@ public class AddNewCustomerActivity extends AppCompatActivity {
             } else if (TextUtils.isEmpty(etLeftIPD.getText().toString().trim())) {
                 etLeftIPD.requestFocus();
                 etLeftIPD.setError("Enter left IPD");
-            } else {
-                if (isNew) {
-                    StringRequest request = new StringRequest(Common.ADD_CUSTOMER, response -> {
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show();
-                    }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show()) {
-                        protected Map<String, String> getParams() {
-                            Map<String, String> map = new HashMap<>();
-                            map.put("cname", etFullName.getText().toString());
-                            map.put("cphone", etPhoneNumber.getText().toString());
-                            map.put("cphone2", etSecondaryPhoneNumber.getText().toString());
-                            map.put("cemail", etEmail.getText().toString());
-                            map.put("cage", etAge.getText().toString());
-                            map.put("cgender", radioGrp.getCheckedRadioButtonId() == R.id.male ? "male" : "female");
-                            map.put("caddress", etAddress.getText().toString());
-                            map.put("cremarks", etRemarks.getText().toString());
-                            map.put("right_IPD", etRightIPD.getText().toString());
-                            map.put("left_IPD", etLeftIPD.getText().toString());
-                            if (spPrescribers.getSelectedItem() != null) {
-                                map.put("prescriber_id", String.valueOf((Integer) spPrescribers.getSelectedItem()));
-                            }
-                            return map;
-                        }
-                    };
-
-                    if (Common.isNetworkAvailable(getApplicationContext())) {
-                        Volley.newRequestQueue(getApplicationContext()).add(request);
-                    } else {
-                        Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+            } else if (spPrescribers.getSelectedItem() == null) {
+                Toasty.info(this, "Select your prescriber", Toasty.LENGTH_SHORT).show();
+            }else {
+                StringRequest request = new StringRequest(POST, isNew ? Common.ADD_CUSTOMER : Common.UPDATE_CUSTOMER + customer.getCustomerId(), response -> {
+                    if (response.contains("success")) {
+                        Toasty.success(AddNewCustomerActivity.this, "Saved Successfully!", Toasty.LENGTH_SHORT).show();
+                        finish();
+                    } else if (response.contains("error")) {
+                        Toasty.error(AddNewCustomerActivity.this, "Failed to save", Toasty.LENGTH_SHORT).show();
                     }
+                }, error -> {
+                    if (error.getMessage().contains("success")) {
+                        Toasty.success(AddNewCustomerActivity.this, "Saved Successfully!", Toasty.LENGTH_SHORT).show();
+                        finish();
+                    } else {
+                        Toasty.error(AddNewCustomerActivity.this, "Failed to save", Toasty.LENGTH_SHORT).show();
+                    }
+                }) {
+                    protected Map<String, String> getParams() {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("cname", etFullName.getText().toString());
+                        map.put("cphone", etPhoneNumber.getText().toString());
+                        map.put("cphone2", etSecondaryPhoneNumber.getText().toString());
+                        map.put("cemail", etEmail.getText().toString());
+                        map.put("cage", etAge.getText().toString());
+                        map.put("cgender", radioGrp.getCheckedRadioButtonId() == R.id.male ? "male" : "female");
+                        map.put("caddress", etAddress.getText().toString());
+                        map.put("cremarks", etRemarks.getText().toString());
+                        map.put("right_IPD", etRightIPD.getText().toString());
+                        map.put("left_IPD", etLeftIPD.getText().toString());
+                        if (spPrescribers.getSelectedItem() != null) {
+                            map.put("prescriber_id", String.valueOf((Integer) spPrescribers.getSelectedItem()));
+                        }
+                        return map;
+                    }
+                };
+
+                if (Common.isNetworkAvailable(getApplicationContext())) {
+                    Volley.newRequestQueue(getApplicationContext()).add(request);
+                } else {
+                    Toasty.warning(this, "No Internet Connection", Toasty.LENGTH_SHORT).show();
                 }
+
             }
         });
 
@@ -122,16 +138,16 @@ public class AddNewCustomerActivity extends AppCompatActivity {
 
     private void setValues() {
         if (customer != null) {
-            etFullName.setText(customer.getCustomerName() != null && !customer.getCustomerName().isEmpty() ? customer.getCustomerName() : "");
-            etPhoneNumber.setText(customer.getCustomerPhone() != null && !customer.getCustomerPhone().isEmpty() ? customer.getCustomerPhone() : "");
-            etSecondaryPhoneNumber.setText(customer.getCustomerPhone2() != null && !customer.getCustomerPhone2().isEmpty() ? customer.getCustomerPhone2() : "");
-            etEmail.setText(customer.getCustomerEmail() != null && !customer.getCustomerEmail().isEmpty() ? customer.getCustomerEmail() : "");
-            etAge.setText(customer.getCustomerAge() != null && !customer.getCustomerAge().isEmpty() ? customer.getCustomerAge() : "");
-            etAddress.setText(customer.getCustomerAddress() != null && !customer.getCustomerAddress().isEmpty() ? customer.getCustomerAddress() : "");
-            etRemarks.setText(customer.getCustomerRemarks() != null && !customer.getCustomerRemarks().isEmpty() ? customer.getCustomerRemarks() : "");
-            etRightIPD.setText(customer.getCustomerRightIPD() != null && !customer.getCustomerRightIPD().isEmpty() ? customer.getCustomerRightIPD() : "");
-            etLeftIPD.setText(customer.getCustomerLeftIPD() != null && !customer.getCustomerLeftIPD().isEmpty() ? customer.getCustomerLeftIPD() : "");
-            if (customer.getCustomerGender() != null && !customer.getCustomerGender().isEmpty()) {
+            etFullName.setText(customer.getCustomerName() != null && !customer.getCustomerName().equals("null") && !customer.getCustomerName().isEmpty() ? customer.getCustomerName() : "");
+            etPhoneNumber.setText(customer.getCustomerPhone() != null && !customer.getCustomerPhone().equals("null") && !customer.getCustomerPhone().isEmpty() ? customer.getCustomerPhone() : "");
+            etSecondaryPhoneNumber.setText(customer.getCustomerPhone2() != null && !customer.getCustomerPhone2().equals("null") && !customer.getCustomerPhone2().isEmpty() ? customer.getCustomerPhone2() : "");
+            etEmail.setText(customer.getCustomerEmail() != null && !customer.getCustomerEmail().equals("null") && !customer.getCustomerEmail().isEmpty() ? customer.getCustomerEmail() : "");
+            etAge.setText(customer.getCustomerAge() != null && !customer.getCustomerAge().equals("null") && !customer.getCustomerAge().isEmpty() ? customer.getCustomerAge() : "");
+            etAddress.setText(customer.getCustomerAddress() != null && !customer.getCustomerAddress().equals("null") && !customer.getCustomerAddress().isEmpty() ? customer.getCustomerAddress() : "");
+            etRemarks.setText(customer.getCustomerRemarks() != null && !customer.getCustomerRemarks().equals("null") && !customer.getCustomerRemarks().isEmpty() ? customer.getCustomerRemarks() : "");
+            etRightIPD.setText(customer.getCustomerRightIPD() != null && !customer.getCustomerRightIPD().equals("null") && !customer.getCustomerRightIPD().isEmpty() ? customer.getCustomerRightIPD() : "");
+            etLeftIPD.setText(customer.getCustomerLeftIPD() != null && !customer.getCustomerLeftIPD().equals("null") && !customer.getCustomerLeftIPD().isEmpty() ? customer.getCustomerLeftIPD() : "");
+            if (customer.getCustomerGender() != null && !customer.getCustomerGender().isEmpty() && !customer.getCustomerGender().equals("null")) {
                 radioGrp.check(customer.getCustomerGender().equals("male") ? R.id.male : R.id.female);
             }
         }
@@ -186,10 +202,9 @@ public class AddNewCustomerActivity extends AppCompatActivity {
                     prescriberAdapter.notifyDataSetChanged();
                 }
             } catch (Exception e) {
-                Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
             }
-        }, error -> Toast.makeText(this, error.getMessage(), Toast.LENGTH_SHORT).show());
+        }, error ->Toasty.error(this, "Failed to load!", Toasty.LENGTH_SHORT).show());
         Volley.newRequestQueue(getApplicationContext()).add(prescriberRequest);
     }
 
@@ -199,7 +214,7 @@ public class AddNewCustomerActivity extends AppCompatActivity {
             super.onBackPressed();
         } else if (!onBackPressed) {
             onBackPressed = true;
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            Toasty.info(this, "Press back again to exit", Toasty.LENGTH_SHORT).show();
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {

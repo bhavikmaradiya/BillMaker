@@ -23,6 +23,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.CustomerListAdapter;
 import shravan.nyshadh.billmaker.AddNewCustomerActivity;
 import shravan.nyshadh.billmaker.Modal.Common;
@@ -60,9 +61,9 @@ public class CustomerListFragment extends Fragment {
         adapter = new CustomerListAdapter(getActivity(), customerList);
         rvCustomersList.setAdapter(adapter);
 
-        rvCustomersList.addOnScrollListener(new RecyclerView.OnScrollListener(){
+        rvCustomersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy){
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 if (dy > 0)
                     fab.hide();
                 else if (dy < 0)
@@ -75,7 +76,7 @@ public class CustomerListFragment extends Fragment {
                 CustomerTask task = new CustomerTask();
                 task.execute();
             } else {
-                Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+                Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
             }
 
@@ -89,7 +90,7 @@ public class CustomerListFragment extends Fragment {
             CustomerTask task = new CustomerTask();
             task.execute();
         } else {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
         }
         return view;
     }
@@ -101,7 +102,7 @@ public class CustomerListFragment extends Fragment {
             CustomerTask task = new CustomerTask();
             task.execute();
         } else {
-            Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
+            Toasty.warning(getActivity(), "No Internet Connection", Toasty.LENGTH_SHORT).show();
         }
     }
 
@@ -135,7 +136,7 @@ public class CustomerListFragment extends Fragment {
                 }
 
 
-            }, error -> Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show());
+            }, error -> getActivity().runOnUiThread(() -> Toasty.error(getActivity(), "Failed to load!", Toast.LENGTH_LONG).show()));
             Volley.newRequestQueue(getActivity()).add(request);
             return customerList;
         }

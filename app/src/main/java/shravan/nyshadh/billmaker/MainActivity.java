@@ -29,6 +29,7 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
 
+import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.InvoiceHistoryAdapter;
 import shravan.nyshadh.billmaker.Adapter.PagerAdapter;
 import shravan.nyshadh.billmaker.Fragment.CustomerListFragment;
@@ -115,7 +116,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         dialog.dismiss();
                     } else {
                         dialog.dismiss();
-                        Toast.makeText(MainActivity.this, "Whatsapp not installed on your device", Toast.LENGTH_SHORT).show();
+                        Toasty.warning(MainActivity.this, "Whatsapp not installed on your device", Toasty.LENGTH_SHORT).show();
                     }
                 } else {
                     Intent intent = new Intent(Intent.ACTION_CALL);
