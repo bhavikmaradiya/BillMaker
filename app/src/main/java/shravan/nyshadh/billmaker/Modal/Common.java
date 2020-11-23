@@ -1,5 +1,9 @@
 package shravan.nyshadh.billmaker.Modal;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+
 import java.util.List;
 
 public class Common {
@@ -16,6 +20,13 @@ public class Common {
     public static final String GET_CUSTOMERS = API + "get-customers";
     public static final String GET_PRESCRIBERS = API + "get-prescribers";
     public static final String ADD_CUSTOMER = API + "add-customers";
+
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager connectivityManager
+                = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
 
 
 }

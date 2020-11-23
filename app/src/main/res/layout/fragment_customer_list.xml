@@ -5,11 +5,15 @@
     android:layout_height="match_parent"
     tools:context=".Fragment.CustomerListFragment">
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/rvCustomersList"
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/pullToRefresh"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        tools:listitem="@layout/item_customer_list"
-        />
+        android:layout_height="wrap_content">
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rvCustomersList"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_customer_list" />
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </FrameLayout>

@@ -11,31 +11,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="6dp">
+        android:orientation="horizontal"
+        android:weightSum="4">
 
-        <TextView
-            android:id="@+id/customer_name"
-            android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:textColor="#000"
-            android:textSize="16sp"
-            tools:text="Mustansir makda" />
+            android:layout_weight="3.4"
+            android:orientation="vertical"
+            android:padding="6dp">
 
-        <TextView
-            android:id="@+id/customer_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:textColor="#636363"
-            android:textSize="15sp"
-            tools:text="9428798440" />
+            <TextView
+                android:id="@+id/customer_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textColor="#000"
+                android:textSize="16sp"
+                tools:text="Mustansir makda" />
 
+            <TextView
+                android:id="@+id/customer_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:textColor="#636363"
+                android:textSize="15sp"
+                tools:text="9428798440" />
+
+        </LinearLayout>
+
+        <ImageView
+            android:id="@+id/imgCheck"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_check"
+            android:padding="12dp"
+            android:layout_weight="0.6"/>
     </LinearLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="#fff" />
 
 </androidx.cardview.widget.CardView>

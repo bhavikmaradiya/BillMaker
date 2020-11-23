@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -14,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.android.volley.toolbox.StringRequest;
@@ -105,7 +107,11 @@ public class AddNewCustomerActivity extends AppCompatActivity {
                         }
                     };
 
-                    Volley.newRequestQueue(getApplicationContext()).add(request);
+                    if (Common.isNetworkAvailable(getApplicationContext())) {
+                        Volley.newRequestQueue(getApplicationContext()).add(request);
+                    } else {
+                        Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -145,7 +151,17 @@ public class AddNewCustomerActivity extends AppCompatActivity {
         spPrescribers = findViewById(R.id.spPrescribers);
         btnSave = findViewById(R.id.btnSave);
         customer = !isNew ? (Customer) getIntent().getSerializableExtra(Common.CUSTOMER) : null;
+        setTitle(isNew ? "Add Customer" : "Edit");
+        getActionBar().setDisplayHomeAsUpEnabled(true);
         getPrecriberList();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            super.onBackPressed();
+        }
+        return true;
     }
 
     private void getPrecriberList() {
