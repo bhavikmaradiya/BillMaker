@@ -39,7 +39,10 @@ public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapte
         holder.customerName.setText(customerList.get(position).getCustomerName());
         holder.customerNumber.setText(customerList.get(position).getCustomerPhone());
         holder.imgEdit.setOnClickListener(view -> context.startActivity(new Intent(context, AddNewCustomerActivity.class).putExtra(Common.CUSTOMER, customerList.get(position)).putExtra(Common.IS_NEW, false).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
-        holder.imgCreateInvoice.setOnClickListener(view -> context.startActivity(new Intent(context, NewEntryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)));
+        holder.imgCreateInvoice.setOnClickListener(view -> {
+            Common.selectedCustomer = customerList.get(position);
+            context.startActivity(new Intent(context, NewEntryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+        });
     }
 
     @Override

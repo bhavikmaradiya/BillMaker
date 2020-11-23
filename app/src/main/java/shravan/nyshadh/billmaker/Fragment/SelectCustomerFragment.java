@@ -77,12 +77,6 @@ public class SelectCustomerFragment extends Fragment {
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-//                if (!searchBar.getText().toString().trim().isEmpty()) {
-//                    filter(s.toString());
-//                } else {
-//                    CustomerTask task = new CustomerTask();
-//                    task.execute();
-//                }
             }
 
             @Override
@@ -94,7 +88,7 @@ public class SelectCustomerFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!searchBar.getText().toString().trim().isEmpty()) {
-                    filter(s.toString());
+                    filter(searchBar.getText().toString().toLowerCase());
                 } else {
                     CustomerTask task = new CustomerTask();
                     task.execute();
@@ -111,31 +105,31 @@ public class SelectCustomerFragment extends Fragment {
         return view;
     }
 
-    private void filter(String text) {
-        List<Customer> temp = new ArrayList<>();
-        for (Customer customer : customerList) {
-
-            if (customer.getCustomerName().toLowerCase().startsWith(text.toLowerCase())) {
-                temp.add(customer);
-            } else if (customer.getCustomerPhone().toLowerCase().startsWith(text.toLowerCase())) {
-                temp.add(customer);
-            } else if (customer.getCustomerPhone2().toLowerCase().startsWith(text.toLowerCase())) {
-                temp.add(customer);
-            }
-        }
-        //update recyclerview
-        adapter.updateList(temp);
-    }
-
     @Override
     public void onResume() {
         super.onResume();
         if (Common.isNetworkAvailable(getActivity())) {
             CustomerTask task = new CustomerTask();
             task.execute();
-        } else {
+        }else {
             Toast.makeText(getActivity(), "No Internet Connection", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void filter(String text) {
+        List<Customer> temp = new ArrayList<>();
+        for (Customer customer : customerList) {
+
+            if (customer.getCustomerName().toLowerCase().startsWith(text)) {
+                temp.add(customer);
+            } else if (customer.getCustomerPhone().toLowerCase().startsWith(text)) {
+                temp.add(customer);
+            } else if (customer.getCustomerPhone2().toLowerCase().startsWith(text)) {
+                temp.add(customer);
+            }
+        }
+        //update recyclerview
+        adapter.updateList(temp);
     }
 
     private class CustomerTask extends AsyncTask<Void, Void, List<Customer>> {

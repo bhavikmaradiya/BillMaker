@@ -12,6 +12,7 @@ public class Common {
     public static final String ACTION_INVOICE_DETAIL = "actionDetails";
     public static final String CUSTOMER = "customer";
     public static final String IS_NEW = "isNew";
+    public static final String IS_SELECTED = "isSelected";
     public static List<Product> SELECTED_PRODUCTS;
     public static Customer selectedCustomer;
 

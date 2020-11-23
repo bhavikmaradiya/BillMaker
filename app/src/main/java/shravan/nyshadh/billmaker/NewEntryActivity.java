@@ -1,6 +1,7 @@
 package shravan.nyshadh.billmaker;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Toast;
@@ -19,11 +20,13 @@ import shravan.nyshadh.billmaker.Modal.Common;
 public class NewEntryActivity extends AppCompatActivity {
     SwipableViewPager viewPager;
     Button cancelBtn, nextBtn;
+    private boolean onBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_new_entry);
+        setTitle("Invoice");
 //        getActionBar().setDisplayHomeAsUpEnabled(true);
         cancelBtn = findViewById(R.id.cancelBtn);
         nextBtn = findViewById(R.id.nextBtn);
@@ -36,6 +39,9 @@ public class NewEntryActivity extends AppCompatActivity {
         fragments[2] = new ManualProductFragment();
         viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), fragments, null));
         addListener();
+        if (Common.selectedCustomer != null) {
+            viewPager.setCurrentItem(1);
+        }
     }
 
     private void addListener() {
@@ -47,8 +53,11 @@ public class NewEntryActivity extends AppCompatActivity {
             }
         });
         cancelBtn.setOnClickListener(view -> {
-            if (viewPager.getCurrentItem() > 0)
+            if (viewPager.getCurrentItem() > 0) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+            } else {
+                super.onBackPressed();
+            }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -70,6 +79,24 @@ public class NewEntryActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (viewPager.getCurrentItem() > 0) {
+            viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
+        } else if (onBackPressed) {
+            super.onBackPressed();
+        } else if (!onBackPressed){
+            onBackPressed = true;
+            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    onBackPressed = false;
+                }
+            }, 3000);
+        }
     }
 
     @Override
