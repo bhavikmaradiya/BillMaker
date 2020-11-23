@@ -56,6 +56,7 @@ public class NewEntryActivity extends AppCompatActivity {
             if (viewPager.getCurrentItem() > 0) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
             } else {
+                Common.selectedCustomer = null;
                 super.onBackPressed();
             }
         });

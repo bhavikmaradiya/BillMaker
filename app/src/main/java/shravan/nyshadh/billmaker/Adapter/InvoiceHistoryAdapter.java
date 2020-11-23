@@ -37,11 +37,6 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         return new InvoiceHolder(LayoutInflater.from(context).inflate(R.layout.item_invoice, parent, false));
     }
 
-    private float dipToPixels() {
-        DisplayMetrics metrics = this.context.getResources().getDisplayMetrics();
-        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, (float) 3, metrics);
-    }
-
     @Override
     public void onBindViewHolder(@NonNull InvoiceHolder holder, int position) {
         Invoice invoice = invoiceList.get(holder.getAdapterPosition());
