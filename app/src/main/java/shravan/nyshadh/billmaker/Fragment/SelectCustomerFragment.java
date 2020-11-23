@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker.Fragment;
 
+import android.app.Activity;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,7 @@ public class SelectCustomerFragment extends Fragment {
     List<Customer> customerList;
     SwipeRefreshLayout swipeRefreshLayout;
     EditText searchBar;
+    Activity activity;
 
     public SelectCustomerFragment() {
         customerList = new ArrayList<>();
@@ -132,6 +134,12 @@ public class SelectCustomerFragment extends Fragment {
         adapter.updateList(temp);
     }
 
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
+    }
+
     private class CustomerTask extends AsyncTask<Void, Void, List<Customer>> {
         @Override
         protected List<Customer> doInBackground(Void... voids) {
@@ -158,13 +166,13 @@ public class SelectCustomerFragment extends Fragment {
                         adapter.updateList(customerList);
                     }
                 } catch (Exception e) {
-                    new Handler().post(() -> Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show());
+                    new Handler().post(() -> Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show());
                     e.printStackTrace();
                 }
 
 
-            }, error -> new Handler().post(() -> Toast.makeText(getActivity(), error.getMessage(), Toast.LENGTH_LONG).show()));
-            Volley.newRequestQueue(getActivity()).add(request);
+            }, error -> new Handler().post(() -> Toast.makeText(activity, error.getMessage(), Toast.LENGTH_LONG).show()));
+            Volley.newRequestQueue(activity).add(request);
             return customerList;
         }
 

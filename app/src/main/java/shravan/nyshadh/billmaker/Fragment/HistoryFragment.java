@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -29,6 +30,7 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
     View view;
     FloatingActionButton fab;
     List<Invoice> invoiceList;
+    Activity activity;
     InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener;
 
     public HistoryFragment(InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener) {
@@ -38,6 +40,12 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
         for (int i = 0; i < 10; i++) {
             invoiceList.add(new Invoice("Bhavik", "942879844" + i, "500", "10/5/2020"));
         }
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
 
