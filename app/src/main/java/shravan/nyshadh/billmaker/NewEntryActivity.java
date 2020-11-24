@@ -1,7 +1,6 @@
 package shravan.nyshadh.billmaker;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.widget.Button;
 
@@ -20,7 +19,6 @@ import shravan.nyshadh.billmaker.Modal.Common;
 public class NewEntryActivity extends AppCompatActivity {
     SwipableViewPager viewPager;
     Button cancelBtn, nextBtn;
-    private boolean onBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,18 +84,9 @@ public class NewEntryActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (viewPager.getCurrentItem() > 0) {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
-        } else if (onBackPressed) {
+        } else {
             Common.selectedCustomer = null;
             super.onBackPressed();
-        } else if (!onBackPressed) {
-            onBackPressed = true;
-            Toasty.info(this, "Press back again to exit", Toasty.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onBackPressed = false;
-                }
-            }, 3000);
         }
     }
 

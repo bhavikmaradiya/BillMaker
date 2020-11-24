@@ -2,9 +2,7 @@ package shravan.nyshadh.billmaker;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,7 +13,6 @@ import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -49,7 +46,6 @@ public class AddNewCustomerActivity extends AppCompatActivity {
     boolean isNew;
     PrescriberSpinnerAdapter prescriberAdapter;
     Customer customer;
-    private boolean onBackPressed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,7 +86,7 @@ public class AddNewCustomerActivity extends AppCompatActivity {
                 etLeftIPD.setError("Enter left IPD");
             } else if (spPrescribers.getSelectedItem() == null) {
                 Toasty.info(this, "Select your prescriber", Toasty.LENGTH_SHORT).show();
-            }else {
+            } else {
                 StringRequest request = new StringRequest(POST, isNew ? Common.ADD_CUSTOMER : Common.UPDATE_CUSTOMER + customer.getCustomerId(), response -> {
                     if (response.contains("success")) {
                         Toasty.success(AddNewCustomerActivity.this, "Saved Successfully!", Toasty.LENGTH_SHORT).show();
@@ -204,24 +200,13 @@ public class AddNewCustomerActivity extends AppCompatActivity {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        }, error ->Toasty.error(this, "Failed to load!", Toasty.LENGTH_SHORT).show());
+        }, error -> Toasty.error(this, "Failed to load!", Toasty.LENGTH_SHORT).show());
         Volley.newRequestQueue(getApplicationContext()).add(prescriberRequest);
     }
 
     @Override
     public void onBackPressed() {
-        if (onBackPressed) {
-            super.onBackPressed();
-        } else if (!onBackPressed) {
-            onBackPressed = true;
-            Toasty.info(this, "Press back again to exit", Toasty.LENGTH_SHORT).show();
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    onBackPressed = false;
-                }
-            }, 3000);
-        }
+        super.onBackPressed();
     }
 
     private static class PrescriberSpinnerAdapter extends BaseAdapter {

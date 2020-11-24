@@ -93,8 +93,14 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     public void handleResult(Result rawResult) {
         if (productListAdapter != null) {
             mScannerView.stopCamera();
-//            Product product = new Product(rawResult.getText(), rawResult.getText(), 1, 500);
-//            productListAdapter.addProduct(product);
+            if (!productListAdapter.isAdded(1)) {
+                Product product = new Product();
+                product.setName(rawResult.getText());
+                product.setQuantity(1);
+                product.setProductId(1);
+                product.setTotalprice("500");
+                productListAdapter.addProduct(product);
+            }
             if (productListAdapter.hasProducts()) {
                 productListRecyclerView.setVisibility(View.VISIBLE);
                 placeholder_view.setVisibility(View.GONE);

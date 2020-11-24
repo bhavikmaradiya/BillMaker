@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setSupportActionBar(toolbar);
         Fragment[] fragments = new Fragment[2];
         fragments[0] = new CustomerListFragment();
-        fragments[1] = new HistoryFragment(this);
+        fragments[1] = new HistoryFragment();
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"});
         pager.setAdapter(pagerAdapter);
 

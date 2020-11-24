@@ -175,7 +175,7 @@ public class SelectCustomerFragment extends Fragment {
                 }
 
 
-            }, error -> getActivity().runOnUiThread(() -> Toasty.error(activity, "Failed to load!", Toasty.LENGTH_SHORT).show()));
+            }, error -> activity.runOnUiThread(() -> Toasty.error(activity, "Failed to load!", Toasty.LENGTH_SHORT).show()));
             Volley.newRequestQueue(activity).add(request);
             return customerList;
         }

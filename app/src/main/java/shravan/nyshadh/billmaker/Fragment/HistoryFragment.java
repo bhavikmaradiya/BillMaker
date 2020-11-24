@@ -41,12 +41,11 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
     List<Invoice> invoiceList;
     SwipeRefreshLayout swipeRefreshLayout;
     Activity activity;
-
     InvoiceHistoryAdapter adapter;
     InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener;
 
-    public HistoryFragment(InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener) {
-        this.invoiceActionListener = invoiceActionListener;
+
+    public HistoryFragment() {
         invoiceList = new ArrayList<>();
     }
 
@@ -54,8 +53,14 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
     public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
+        this.invoiceActionListener = (InvoiceHistoryAdapter.InvoiceActionListener) activity;
     }
 
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        this.invoiceActionListener = null;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -137,6 +142,6 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
 
     @Override
     public void onActionSelected(String action, Invoice invoice) {
-        invoiceActionListener.onActionSelected(action, invoice);
+        if (invoiceActionListener != null) invoiceActionListener.onActionSelected(action, invoice);
     }
 }
