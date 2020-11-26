@@ -50,6 +50,16 @@ public class Product {
     @Expose
     private String comments;
 
+    private int discountPercentage = 0;
+
+    public void setDiscountPercentage(int discountPercentage) {
+        this.discountPercentage = discountPercentage;
+    }
+
+    public int getDiscountPercentage() {
+        return discountPercentage;
+    }
+
     public Integer getProductId() {
         return productId;
     }

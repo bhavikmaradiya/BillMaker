@@ -44,10 +44,14 @@ public class NewEntryActivity extends AppCompatActivity {
 
     private void addListener() {
         nextBtn.setOnClickListener(view -> {
-            if (Common.selectedCustomer != null) {
+            if (viewPager.getCurrentItem() == 0 && Common.selectedCustomer != null) {
                 viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
-            } else {
+            } else if (viewPager.getCurrentItem() == 0 && Common.selectedCustomer == null) {
                 Toasty.info(this, "First select customer to continue!", Toasty.LENGTH_SHORT).show();
+            } else if (viewPager.getCurrentItem() == 1 && Common.SELECTED_PRODUCTS != null && Common.SELECTED_PRODUCTS.size() > 0) {
+                viewPager.setCurrentItem(viewPager.getCurrentItem() + 1);
+            } else if (viewPager.getCurrentItem() == 0 && Common.SELECTED_PRODUCTS == null || (Common.SELECTED_PRODUCTS != null ? Common.SELECTED_PRODUCTS.size() : 0) <= 0) {
+                Toasty.info(this, "Please add products to continue!", Toasty.LENGTH_LONG).show();
             }
         });
         cancelBtn.setOnClickListener(view -> {

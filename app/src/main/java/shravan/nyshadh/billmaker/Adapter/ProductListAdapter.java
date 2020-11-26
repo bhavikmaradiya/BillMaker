@@ -59,7 +59,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             Common.SELECTED_PRODUCTS = productList;
         });
         holder.productQuantity.setText(String.valueOf(product.getQuantity()));
-        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "us")).format(Long.parseLong(product.getTotalprice())));
+        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "us")).format(Integer.parseInt(product.getSellprice())));
         holder.productName.setText(product.getName());
     }
 
@@ -74,15 +74,13 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public void addProduct(Product product) {
         if (productList.size() <= 0) {
-            productList.add(product);
-            notifyItemInserted(productList.size() + 1);
+            this.productList.add(product);
+            notifyItemInserted(this.productList.size() + 1);
             productOptionsListener.onProductAdded();
         } else {
             boolean isAdded = false;
             for (int i = 0; i < productList.size(); i++) {
                 if (productList.get(i).getProductId().equals(product.getProductId())) {
-//                    increaseQuantity(i);
-//                    productOptionsListener.onProductAdded();
                     isAdded = true;
                     break;
                 }
@@ -98,7 +96,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     }
 
-    public boolean isAdded(int id){
+    public boolean isAdded(int id) {
         for (int i = 0; i < productList.size(); i++) {
             if (productList.get(i).getProductId().equals(id)) {
                 increaseQuantity(i);
@@ -106,7 +104,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
                 Common.SELECTED_PRODUCTS = productList;
                 return true;
             }
-        }return false;
+        }
+        return false;
     }
 
     static class ProductHolder extends RecyclerView.ViewHolder {

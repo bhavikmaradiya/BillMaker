@@ -1,11 +1,18 @@
 package shravan.nyshadh.billmaker.Fragment;
 
 import android.Manifest;
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
@@ -16,12 +23,23 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.zxing.Result;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
+import java.util.Objects;
+
+import es.dmoral.toasty.Toasty;
 import me.dm7.barcodescanner.zxing.ZXingScannerView;
-import shravan.nyshadh.billmaker.Modal.Product;
 import shravan.nyshadh.billmaker.Adapter.ProductListAdapter;
+import shravan.nyshadh.billmaker.Modal.Common;
+import shravan.nyshadh.billmaker.Modal.Product;
 import shravan.nyshadh.billmaker.R;
+
+import static com.android.volley.Request.Method.GET;
 
 
 /**
@@ -32,9 +50,16 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     private RecyclerView productListRecyclerView;
     private RelativeLayout placeholder_view;
     private ProductListAdapter productListAdapter;
+    private Activity activity;
 
     public ScanProductFragment() {
         // Required empty public constructor
+    }
+
+    @Override
+    public void onAttach(@NonNull Activity activity) {
+        super.onAttach(activity);
+        this.activity = activity;
     }
 
 
@@ -66,20 +91,22 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     @Override
     public void onResume() {
         super.onResume();
-        if (productListAdapter.hasProducts()) {
-            productListRecyclerView.setVisibility(View.VISIBLE);
-            placeholder_view.setVisibility(View.GONE);
-        } else {
-            productListRecyclerView.setVisibility(View.GONE);
-            placeholder_view.setVisibility(View.VISIBLE);
-        }
-        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
-            mScannerView.setResultHandler(this);
-            mScannerView.startCamera();
-        } else {
-            requestPermissions(
-                    new String[]{Manifest.permission.CAMERA},
-                    552);
+        if (productListAdapter != null) {
+            if (productListAdapter.hasProducts()) {
+                productListRecyclerView.setVisibility(View.VISIBLE);
+                placeholder_view.setVisibility(View.GONE);
+            } else {
+                productListRecyclerView.setVisibility(View.GONE);
+                placeholder_view.setVisibility(View.VISIBLE);
+            }
+            if (ContextCompat.checkSelfPermission(activity, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED) {
+                mScannerView.setResultHandler(this);
+                mScannerView.startCamera();
+            } else {
+                requestPermissions(
+                        new String[]{Manifest.permission.CAMERA},
+                        552);
+            }
         }
     }
 
@@ -93,13 +120,76 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     public void handleResult(Result rawResult) {
         if (productListAdapter != null) {
             mScannerView.stopCamera();
-            if (!productListAdapter.isAdded(1)) {
-                Product product = new Product();
-                product.setName(rawResult.getText());
-                product.setQuantity(1);
-                product.setProductId(1);
-                product.setTotalprice("500");
-                productListAdapter.addProduct(product);
+            StringRequest request = new StringRequest(GET, Common.GET_PRODUCT + Integer.parseInt(rawResult.getText()), response -> {
+                Dialog dialog = new Dialog(activity);
+                View view = LayoutInflater.from(activity).inflate(R.layout.apply_discount, null, false);
+                EditText etDiscountPercentage = view.findViewById(R.id.etDiscountPercentage);
+                Button cancel = view.findViewById(R.id.cancelBtn);
+                Button apply = view.findViewById(R.id.applyBtn);
+                Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                dialog.setCancelable(false);
+                dialog.setContentView(view);
+
+                if (isAdded() && isVisible()) {
+                    dialog.show();
+                }
+
+                apply.setOnClickListener(applyView -> {
+                    if (etDiscountPercentage.getText().toString().trim().length() > 0) {
+                        try {
+                            JSONArray array = new JSONArray(response);
+                            JSONObject object = array.getJSONObject(0);
+                            Product product = new Product();
+                            product.setProductId(object.getInt("product_id"));
+                            product.setQuantity(1);
+                            product.setName(object.getString("name"));
+                            product.setSellprice(object.getString("sellprice"));
+                            product.setUnitprice(object.getString("unitprice"));
+                            product.setBrand(object.getString("brand"));
+                            product.setColor(object.getString("color"));
+                            product.setType(object.getString("type"));
+                            product.setDiscountPercentage(Integer.parseInt(etDiscountPercentage.getText().toString()));
+                            product.setTotalprice(object.getString("totalprice"));
+                            productListAdapter.addProduct(product);
+                            if (dialog.isShowing()) {
+                                dialog.dismiss();
+                            }
+                        } catch (Exception e) {
+                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toasty.warning(activity, "Enter valid value", Toasty.LENGTH_SHORT).show();
+                    }
+                });
+
+                cancel.setOnClickListener(cancelView -> {
+                    try {
+                        JSONArray array = new JSONArray(response);
+                        JSONObject object = array.getJSONObject(0);
+                        Product product = new Product();
+                        product.setProductId(object.getInt("product_id"));
+                        product.setQuantity(1);
+                        product.setName(object.getString("name"));
+                        product.setSellprice(object.getString("sellprice"));
+                        product.setUnitprice(object.getString("unitprice"));
+                        product.setBrand(object.getString("brand"));
+                        product.setColor(object.getString("color"));
+                        product.setType(object.getString("type"));
+                        product.setTotalprice(object.getString("totalprice"));
+                        productListAdapter.addProduct(product);
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
+
+            }, error -> Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show());
+            if (!productListAdapter.isAdded(Integer.parseInt(rawResult.getText()))) {
+                Volley.newRequestQueue(activity).add(request);
             }
             if (productListAdapter.hasProducts()) {
                 productListRecyclerView.setVisibility(View.VISIBLE);
@@ -122,5 +212,12 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     public void onProductAdded() {
         mScannerView.startCamera();
         mScannerView.resumeCameraPreview(this);
+        if (productListAdapter.hasProducts()) {
+            productListRecyclerView.setVisibility(View.VISIBLE);
+            placeholder_view.setVisibility(View.GONE);
+        } else {
+            productListRecyclerView.setVisibility(View.GONE);
+            placeholder_view.setVisibility(View.VISIBLE);
+        }
     }
 }
