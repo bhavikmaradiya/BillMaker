@@ -7,9 +7,11 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+
+import java.text.NumberFormat;
+import java.util.Locale;
 
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Product;
@@ -48,14 +50,6 @@ public class ManualProductFragment extends Fragment {
     }
 
     @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            setValues();
-        }
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         setValues();
@@ -63,23 +57,21 @@ public class ManualProductFragment extends Fragment {
 
 
     private void setValues() {
-        Toast.makeText(getActivity(), "setValues", Toast.LENGTH_SHORT).show();
         if (Common.SELECTED_PRODUCTS != null && Common.SELECTED_PRODUCTS.size() > 0) {
-            double discountAmount = 0;
-            double totalPrice = 0;
+            double discountAmount = 0, grandTotal = 0, subTotal = 0;
 
             for (Product product : Common.SELECTED_PRODUCTS) {
                 if (product.getDiscountPercentage() > 0) {
-                    discountAmount = discountAmount + Integer.parseInt(product.getSellprice()) % product.getDiscountPercentage();
+                    discountAmount = discountAmount + product.getDiscountAmount();
                 }
-                if (Double.parseDouble(product.getSellprice()) > 0) {
-                    totalPrice = totalPrice + product.getQuantity() * Integer.parseInt(product.getSellprice());
+                if (Integer.parseInt(product.getSellprice()) > 0) {
+                    subTotal = subTotal + (product.getQuantity() * Integer.parseInt(product.getSellprice()));
                 }
             }
-            totalPrice = totalPrice - discountAmount;
-            tvDiscountAmount.setText(String.valueOf(discountAmount));
-            tvSubTotal.setText(String.valueOf(totalPrice));
-            tvGrandTotal.setText(String.valueOf(totalPrice));
+            grandTotal = subTotal - discountAmount;
+            tvDiscountAmount.setText(NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(discountAmount));
+            tvSubTotal.setText(NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(subTotal));
+            tvGrandTotal.setText(NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(grandTotal));
         }
     }
 }

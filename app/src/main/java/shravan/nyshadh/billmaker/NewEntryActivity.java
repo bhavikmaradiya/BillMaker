@@ -7,6 +7,7 @@ import android.widget.Button;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import es.dmoral.toasty.Toasty;
@@ -35,7 +36,7 @@ public class NewEntryActivity extends AppCompatActivity {
         fragments[0] = new SelectCustomerFragment();
         fragments[1] = new ScanProductFragment();
         fragments[2] = new ManualProductFragment();
-        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), fragments, null));
+        viewPager.setAdapter(new PagerAdapter(getSupportFragmentManager(), fragments, null, FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT));
         addListener();
         if (Common.selectedCustomer != null) {
             viewPager.setCurrentItem(1);

@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.zxing.Result;
@@ -51,6 +53,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     private RelativeLayout placeholder_view;
     private ProductListAdapter productListAdapter;
     private Activity activity;
+    boolean isVisible = false;
 
     public ScanProductFragment() {
         // Required empty public constructor
@@ -91,6 +94,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     @Override
     public void onResume() {
         super.onResume();
+        isVisible = true;
         if (productListAdapter != null) {
             if (productListAdapter.hasProducts()) {
                 productListRecyclerView.setVisibility(View.VISIBLE);
@@ -108,18 +112,22 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                         552);
             }
         }
+
     }
 
     @Override
     public void onPause() {
         super.onPause();
+        isVisible = false;
         mScannerView.stopCamera();
     }
 
     @Override
     public void handleResult(Result rawResult) {
         if (productListAdapter != null) {
-            mScannerView.stopCamera();
+            if (isVisible) {
+                mScannerView.stopCamera();
+            }
             StringRequest request = new StringRequest(GET, Common.GET_PRODUCT + Integer.parseInt(rawResult.getText()), response -> {
                 Dialog dialog = new Dialog(activity);
                 View view = LayoutInflater.from(activity).inflate(R.layout.apply_discount, null, false);
@@ -130,9 +138,12 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
                 dialog.setCancelable(false);
                 dialog.setContentView(view);
-
-                if (isAdded() && isVisible()) {
-                    dialog.show();
+                try {
+                    if (isVisible && !dialog.isShowing() && new JSONArray(response).length() > 0) {
+                        dialog.show();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
 
                 apply.setOnClickListener(applyView -> {
@@ -149,11 +160,18 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                             product.setBrand(object.getString("brand"));
                             product.setColor(object.getString("color"));
                             product.setType(object.getString("type"));
-                            product.setDiscountPercentage(Integer.parseInt(etDiscountPercentage.getText().toString()));
+                            product.setDiscountPercentage(Double.parseDouble(etDiscountPercentage.getText().toString()));
                             product.setTotalprice(object.getString("totalprice"));
                             productListAdapter.addProduct(product);
                             if (dialog.isShowing()) {
                                 dialog.dismiss();
+                            }
+                            if (productListAdapter.hasProducts()) {
+                                productListRecyclerView.setVisibility(View.VISIBLE);
+                                placeholder_view.setVisibility(View.GONE);
+                            } else {
+                                productListRecyclerView.setVisibility(View.GONE);
+                                placeholder_view.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e) {
                             Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -163,7 +181,6 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                         Toasty.warning(activity, "Enter valid value", Toasty.LENGTH_SHORT).show();
                     }
                 });
-
                 cancel.setOnClickListener(cancelView -> {
                     try {
                         JSONArray array = new JSONArray(response);
@@ -182,22 +199,45 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                         if (dialog.isShowing()) {
                             dialog.dismiss();
                         }
+                        if (productListAdapter.hasProducts()) {
+                            productListRecyclerView.setVisibility(View.VISIBLE);
+                            placeholder_view.setVisibility(View.GONE);
+                        } else {
+                            productListRecyclerView.setVisibility(View.GONE);
+                            placeholder_view.setVisibility(View.VISIBLE);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 });
 
-            }, error -> Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show());
-            if (!productListAdapter.isAdded(Integer.parseInt(rawResult.getText()))) {
-                Volley.newRequestQueue(activity).add(request);
+            }, error -> {
+                Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+                mScannerView.startCamera();
+                mScannerView.resumeCameraPreview(this);
+            });
+            request.setRetryPolicy(new DefaultRetryPolicy(
+                    0,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            try {
+                Integer.parseInt(rawResult.getText());
+                if (isVisible && !productListAdapter.isAdded(Integer.parseInt(rawResult.getText()))) {
+                    Volley.newRequestQueue(activity).add(request);
+                } else if (!isVisible) {
+                    mScannerView.startCamera();
+                    mScannerView.resumeCameraPreview(this);
+                }
+            } catch (Exception e) {
+                if (isVisible) {
+                    Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+                    mScannerView.startCamera();
+                    mScannerView.resumeCameraPreview(this);
+                }
+                e.printStackTrace();
             }
-            if (productListAdapter.hasProducts()) {
-                productListRecyclerView.setVisibility(View.VISIBLE);
-                placeholder_view.setVisibility(View.GONE);
-            } else {
-                productListRecyclerView.setVisibility(View.GONE);
-                placeholder_view.setVisibility(View.VISIBLE);
-            }
+
+
         }
 
 

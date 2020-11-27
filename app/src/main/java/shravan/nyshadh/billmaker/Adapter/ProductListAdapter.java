@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -46,6 +47,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         holder.increase.setOnClickListener(view -> {
             product.setQuantity(product.getQuantity() + 1);
             holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+            notifyItemChanged(position);
             Common.SELECTED_PRODUCTS = productList;
         });
         holder.decrease.setOnClickListener(view -> {
@@ -55,11 +57,12 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             } else {
                 product.setQuantity(product.getQuantity() - 1);
                 holder.productQuantity.setText(String.valueOf(product.getQuantity()));
+                notifyItemChanged(position);
             }
             Common.SELECTED_PRODUCTS = productList;
         });
         holder.productQuantity.setText(String.valueOf(product.getQuantity()));
-        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "us")).format(Integer.parseInt(product.getSellprice())));
+        holder.productPrice.setText(NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(product.getPayable()));
         holder.productName.setText(product.getName());
     }
 

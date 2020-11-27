@@ -21,6 +21,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.navigation.NavigationView;
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Fragment[] fragments = new Fragment[2];
         fragments[0] = new CustomerListFragment();
         fragments[1] = new HistoryFragment();
-        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"});
+        pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"}, FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT);
         pager.setAdapter(pagerAdapter);
 
         //TODO create customer update and delete activity

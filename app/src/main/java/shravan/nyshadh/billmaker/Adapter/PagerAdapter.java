@@ -11,8 +11,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
     private Fragment[] fragments;
     private String[] titles;
 
-    public PagerAdapter(@NonNull FragmentManager fm, Fragment[] fragments, String[] titles) {
-        super(fm);
+    public PagerAdapter(@NonNull FragmentManager fm, Fragment[] fragments, String[] titles, int behaviour) {
+        super(fm, behaviour);
         this.fragments = fragments;
         this.titles = titles;
     }

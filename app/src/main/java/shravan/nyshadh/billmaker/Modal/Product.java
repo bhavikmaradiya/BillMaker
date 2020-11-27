@@ -50,13 +50,21 @@ public class Product {
     @Expose
     private String comments;
 
-    private int discountPercentage = 0;
+    private double discountPercentage = 0;
 
-    public void setDiscountPercentage(int discountPercentage) {
+    public double getDiscountAmount() {
+        return discountPercentage != 0 ? (Double.parseDouble(this.sellprice) * this.quantity * this.discountPercentage) / 100 : 0;
+    }
+
+    public double getPayable() {
+        return (Double.parseDouble(this.sellprice) * this.quantity) - ((Double.parseDouble(this.sellprice) * this.quantity * this.discountPercentage) / 100);
+    }
+
+    public void setDiscountPercentage(double discountPercentage) {
         this.discountPercentage = discountPercentage;
     }
 
-    public int getDiscountPercentage() {
+    public double getDiscountPercentage() {
         return discountPercentage;
     }
 
