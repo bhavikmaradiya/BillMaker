@@ -5,8 +5,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -41,6 +41,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         notifyItemChanged(pos);
     }
 
+    public void applyDiscount(int position, double discountPercentage) {
+        productList.get(position).setDiscountPercentage(discountPercentage);
+        notifyItemChanged(position);
+    }
+
     @Override
     public void onBindViewHolder(@NonNull ProductHolder holder, int position) {
         Product product = productList.get(holder.getAdapterPosition());
@@ -50,6 +55,11 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             notifyItemChanged(position);
             Common.SELECTED_PRODUCTS = productList;
         });
+
+        holder.applyDiscount.setOnClickListener(applyDiscountView -> {
+            if (productOptionsListener != null) productOptionsListener.onApplyDiscount(position, product);
+        });
+
         holder.decrease.setOnClickListener(view -> {
             if (product.getQuantity() == 1) {
                 productList.remove(product);
@@ -114,6 +124,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     static class ProductHolder extends RecyclerView.ViewHolder {
         ImageView increase, decrease;
         TextView productQuantity, productPrice, productName;
+        RelativeLayout applyDiscount;
 
         ProductHolder(@NonNull View itemView) {
             super(itemView);
@@ -122,11 +133,15 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
             productName = itemView.findViewById(R.id.productName);
             productQuantity = itemView.findViewById(R.id.productQuantity);
             productPrice = itemView.findViewById(R.id.productPrice);
+            applyDiscount = itemView.findViewById(R.id.applyDiscount);
         }
     }
 
     public interface ProductOptionsListener {
         void onDelete();
+
+        void onApplyDiscount(int position, Product product);
+
         void onProductAdded();
     }
 }

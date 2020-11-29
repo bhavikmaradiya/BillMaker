@@ -73,7 +73,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
         productListRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         FrameLayout scannerFragment = view.findViewById(R.id.qrcodeFragment);
         placeholder_view = view.findViewById(R.id.placeholder_view);
-        productListAdapter = new ProductListAdapter(getActivity(), this);
+        productListAdapter = new ProductListAdapter(activity == null ? getActivity() : activity, this);
         productListRecyclerView.setAdapter(productListAdapter);
         mScannerView = new ZXingScannerView(getActivity());
         scannerFragment.addView(mScannerView);
@@ -145,7 +145,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                 }
 
                 apply.setOnClickListener(applyView -> {
-                    if (etDiscountPercentage.getText().toString().trim().length() > 0) {
+                    if (etDiscountPercentage.getText().toString().trim().length() > 0 && Double.parseDouble(etDiscountPercentage.getText().toString()) != 0) {
                         try {
                             JSONArray array = new JSONArray(response);
                             JSONObject object = array.getJSONObject(0);
@@ -253,6 +253,41 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
     @Override
     public void onDelete() {
 
+    }
+
+    @Override
+    public void onApplyDiscount(int position, Product product) {
+        Dialog dialog = new Dialog(activity);
+        View view = LayoutInflater.from(activity).inflate(R.layout.apply_discount, null, false);
+        EditText etDiscountPercentage = view.findViewById(R.id.etDiscountPercentage);
+        Button cancel = view.findViewById(R.id.cancelBtn);
+        Button apply = view.findViewById(R.id.applyBtn);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(view);
+        etDiscountPercentage.setText(product.getDiscountPercentage() == 0 ? "" : String.valueOf(product.getDiscountPercentage()));
+        try {
+            if (isVisible && !dialog.isShowing()) {
+                dialog.show();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        apply.setOnClickListener(applyView -> {
+            if (etDiscountPercentage.getText().toString().trim().length() > 0 && Double.parseDouble(etDiscountPercentage.getText().toString()) != 0) {
+                if (productListAdapter != null)
+                    productListAdapter.applyDiscount(position, Double.parseDouble(etDiscountPercentage.getText().toString()));
+                if (dialog.isShowing()) dialog.dismiss();
+            } else {
+                Toasty.warning(activity, "Enter valid value", Toasty.LENGTH_SHORT).show();
+            }
+        });
+
+        cancel.setOnClickListener(cancelView -> {
+            if (dialog.isShowing()) dialog.dismiss();
+        });
     }
 
     @Override
