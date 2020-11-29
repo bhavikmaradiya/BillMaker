@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +15,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -139,7 +137,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                 dialog.setCancelable(false);
                 dialog.setContentView(view);
                 try {
-                    if (isVisible && !dialog.isShowing() && new JSONArray(response).length() > 0) {
+                    if (isVisible && !dialog.isShowing() && new JSONArray(response != null ? response : "[]").length() > 0) {
                         dialog.show();
                     }
                 } catch (Exception e) {
@@ -153,7 +151,6 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                             JSONObject object = array.getJSONObject(0);
                             Product product = new Product();
                             product.setProductId(object.getInt("product_id"));
-                            product.setQuantity(1);
                             product.setName(object.getString("name"));
                             product.setSellprice(object.getString("sellprice"));
                             product.setUnitprice(object.getString("unitprice"));
@@ -174,7 +171,12 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                                 placeholder_view.setVisibility(View.VISIBLE);
                             }
                         } catch (Exception e) {
-                            Toast.makeText(activity, e.getMessage(), Toast.LENGTH_SHORT).show();
+                            if (dialog.isShowing()) {
+                                dialog.dismiss();
+                            }
+                            Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+                            mScannerView.startCamera();
+                            mScannerView.resumeCameraPreview(this);
                             e.printStackTrace();
                         }
                     } else {
@@ -187,7 +189,6 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                         JSONObject object = array.getJSONObject(0);
                         Product product = new Product();
                         product.setProductId(object.getInt("product_id"));
-                        product.setQuantity(1);
                         product.setName(object.getString("name"));
                         product.setSellprice(object.getString("sellprice"));
                         product.setUnitprice(object.getString("unitprice"));
@@ -207,6 +208,12 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
                             placeholder_view.setVisibility(View.VISIBLE);
                         }
                     } catch (Exception e) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+                        Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show();
+                        mScannerView.startCamera();
+                        mScannerView.resumeCameraPreview(this);
                         e.printStackTrace();
                     }
                 });

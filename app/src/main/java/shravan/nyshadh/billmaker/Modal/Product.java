@@ -21,7 +21,7 @@ public class Product {
     private String sellprice;
     @SerializedName("quantity")
     @Expose
-    private Integer quantity;
+    private Integer quantity = 1;
     @SerializedName("totalprice")
     @Expose
     private String totalprice;

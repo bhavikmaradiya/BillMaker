@@ -127,7 +127,6 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public interface ProductOptionsListener {
         void onDelete();
-
         void onProductAdded();
     }
 }
