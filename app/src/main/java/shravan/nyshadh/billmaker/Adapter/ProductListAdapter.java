@@ -44,6 +44,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
     public void applyDiscount(int position, double discountPercentage) {
         productList.get(position).setDiscountPercentage(discountPercentage);
         notifyItemChanged(position);
+        Common.SELECTED_PRODUCTS = productList;
     }
 
     @Override
@@ -57,7 +58,8 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         });
 
         holder.applyDiscount.setOnClickListener(applyDiscountView -> {
-            if (productOptionsListener != null) productOptionsListener.onApplyDiscount(position, product);
+            if (productOptionsListener != null)
+                productOptionsListener.onApplyDiscount(position, product);
         });
 
         holder.decrease.setOnClickListener(view -> {

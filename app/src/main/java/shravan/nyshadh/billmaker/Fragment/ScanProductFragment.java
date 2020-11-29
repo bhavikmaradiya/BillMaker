@@ -276,7 +276,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
         }
 
         apply.setOnClickListener(applyView -> {
-            if (etDiscountPercentage.getText().toString().trim().length() > 0 && Double.parseDouble(etDiscountPercentage.getText().toString()) != 0) {
+            if (etDiscountPercentage.getText().toString().trim().length() > 0) {
                 if (productListAdapter != null)
                     productListAdapter.applyDiscount(position, Double.parseDouble(etDiscountPercentage.getText().toString()));
                 if (dialog.isShowing()) dialog.dismiss();
@@ -286,6 +286,8 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
         });
 
         cancel.setOnClickListener(cancelView -> {
+            if (productListAdapter != null)
+                productListAdapter.applyDiscount(position, 0);
             if (dialog.isShowing()) dialog.dismiss();
         });
     }

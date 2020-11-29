@@ -91,6 +91,8 @@ public class NewEntryActivity extends AppCompatActivity {
             viewPager.setCurrentItem(viewPager.getCurrentItem() - 1);
         } else {
             Common.selectedCustomer = null;
+            Common.TAX_PERCENT = 0;
+            Common.SELECTED_PRODUCTS = null;
             super.onBackPressed();
         }
     }

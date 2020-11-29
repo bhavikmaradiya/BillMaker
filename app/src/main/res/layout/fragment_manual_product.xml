@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:animateLayoutChanges="true"
     tools:context=".Fragment.ManualProductFragment">
 
     <ScrollView
@@ -11,166 +12,21 @@
         android:layout_height="match_parent"
         android:paddingHorizontal="5dp"
         android:scrollbars="none"
+        android:animateLayoutChanges="true"
         tools:ignore="UselessParent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
+            android:animateLayoutChanges="true"
             android:orientation="vertical">
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="5dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Sub Total (₹)"-->
-            <!--                    android:textSize="16sp" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/etSubtotal"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginTop="5dp"-->
-            <!--                    android:background="@drawable/edittext_bg"-->
-            <!--                    android:clickable="false"-->
-            <!--                    android:focusable="false"-->
-            <!--                    android:hint="0.00"-->
-            <!--                    android:importantForAutofill="no"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:padding="8dp"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="5dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Tax (%)"-->
-            <!--                    android:textSize="16sp" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/etTax"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginTop="5dp"-->
-            <!--                    android:background="@drawable/edittext_bg"-->
-            <!--                    android:clickable="false"-->
-            <!--                    android:focusable="false"-->
-            <!--                    android:hint="0"-->
-            <!--                    android:importantForAutofill="no"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:nextFocusDown="@id/etSecondaryPhoneNumber"-->
-            <!--                    android:padding="8dp"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="5dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Tax Amount"-->
-            <!--                    android:textSize="16sp" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/etTaxAmount"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginTop="5dp"-->
-            <!--                    android:background="@drawable/edittext_bg"-->
-            <!--                    android:clickable="false"-->
-            <!--                    android:focusable="false"-->
-            <!--                    android:hint="0.00"-->
-            <!--                    android:importantForAutofill="no"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:nextFocusDown="@id/etEmail"-->
-            <!--                    android:padding="8dp"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="5dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Total Discount Amount (₹)"-->
-            <!--                    android:textSize="16sp" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/etDiscountAmount"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginTop="5dp"-->
-            <!--                    android:background="@drawable/edittext_bg"-->
-            <!--                    android:clickable="false"-->
-            <!--                    android:focusable="false"-->
-            <!--                    android:hint="0"-->
-            <!--                    android:importantForAutofill="no"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:nextFocusDown="@id/etAge"-->
-            <!--                    android:padding="8dp"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="8dp"-->
-            <!--                android:orientation="vertical"-->
-            <!--                android:padding="5dp">-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:text="Grand Total (₹)"-->
-            <!--                    android:textSize="16sp" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/etGrandTotal"-->
-            <!--                    android:layout_width="match_parent"-->
-            <!--                    android:layout_height="40dp"-->
-            <!--                    android:layout_marginTop="5dp"-->
-            <!--                    android:background="@drawable/edittext_bg"-->
-            <!--                    android:clickable="false"-->
-            <!--                    android:focusable="false"-->
-            <!--                    android:hint="0.00"-->
-            <!--                    android:importantForAutofill="no"-->
-            <!--                    android:inputType="number"-->
-            <!--                    android:maxLength="3"-->
-            <!--                    android:padding="8dp"-->
-            <!--                    android:textSize="14sp" />-->
-
-            <!--            </LinearLayout>-->
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
+                android:animateLayoutChanges="true"
                 android:padding="5dp">
 
                 <TextView
@@ -184,11 +40,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="7dp"
+                    android:animateLayoutChanges="true"
                     android:orientation="vertical">
 
                     <RelativeLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -213,38 +71,56 @@
                             tools:text="$ 5000" />
                     </RelativeLayout>
 
-                    <RelativeLayout
+                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
+                        android:orientation="horizontal"
+                        android:animateLayoutChanges="true"
+                        android:weightSum="4">
 
                         <TextView
-                            android:layout_width="match_parent"
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentStart="true"
-                            android:layout_alignParentLeft="true"
+                            android:layout_weight="2.7"
                             android:padding="5dp"
                             android:text="Tax (%)"
                             android:textColor="#444444"
                             android:textSize="15sp" />
 
-
-                        <TextView
-                            android:id="@+id/tvTax"
-                            android:layout_width="wrap_content"
+                        <LinearLayout
+                            android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_alignParentEnd="true"
-                            android:layout_alignParentRight="true"
-                            android:padding="5dp"
-                            android:text="$ 20"
-                            android:textColor="#303030"
-                            android:textSize="15sp" />
-                    </RelativeLayout>
+                            android:layout_gravity="end"
+                            android:layout_weight="1.2"
+                            android:gravity="center_vertical|end">
+
+                            <TextView
+                                android:id="@+id/tvTaxPercentage"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:padding="5dp"
+                                android:text="Apply"
+                                android:textColor="#303030"
+                                android:textSize="15sp" />
+
+                            <ImageView
+                                android:id="@+id/imgRemoveTax"
+                                android:layout_width="27dp"
+                                android:src="@drawable/ic_close_red"
+                                android:layout_marginLeft="6dp"
+                                android:layout_gravity="center_vertical|end"
+                                android:padding="3dp"
+                                android:layout_height="match_parent"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <RelativeLayout
-                        android:id="@+id/discountCard"
+                        android:id="@+id/taxAmountCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -265,15 +141,16 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:padding="5dp"
-                            android:text="-$ 10"
-                            android:textColor="#2E9B00"
-                            android:textSize="15sp" />
+                            android:textColor="#303030"
+                            android:textSize="15sp"
+                            tools:text="-$ 10" />
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/promoCard"
+                        android:id="@+id/discountCard"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
                         android:orientation="horizontal">
 
                         <TextView
@@ -293,7 +170,7 @@
                             android:layout_alignParentEnd="true"
                             android:layout_alignParentRight="true"
                             android:padding="5dp"
-                            android:textColor="#2E9B00"
+                            android:textColor="#303030"
                             android:textSize="15sp"
                             tools:text="Have Promocode ?" />
                     </RelativeLayout>
@@ -302,6 +179,7 @@
                         android:id="@+id/grandTotal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:animateLayoutChanges="true"
                         android:orientation="horizontal">
 
                         <TextView
