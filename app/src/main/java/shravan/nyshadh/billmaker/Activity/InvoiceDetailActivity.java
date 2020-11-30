@@ -1,20 +1,20 @@
 package shravan.nyshadh.billmaker.Activity;
 
-import android.app.DownloadManager;
 import android.app.ProgressDialog;
 import android.graphics.Bitmap;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.io.File;
+
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
+import shravan.nyshadh.billmaker.Modal.JavaScriptInterface;
 import shravan.nyshadh.billmaker.R;
 
 public class InvoiceDetailActivity extends AppCompatActivity {
@@ -33,6 +33,10 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         dialog.setMessage("Loading...");
         dialog.setCancelable(false);
         webView.setWebChromeClient(new WebChromeClient());
+
+        if (!new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Eyeplus/").exists()) {
+            new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/Eyeplus/").mkdirs();
+        }
 
 
         WebViewClient client = new WebViewClient() {
@@ -57,20 +61,11 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         if (dialog != null && !dialog.isShowing()) {
             dialog.show();
         }
-        webView.loadUrl(invoice != null ? "https://eyeplus.xtechsoftsolution.com/invoice_pdf.php?cust_id=2&last_id=9" : "");
+        webView.loadUrl(invoice != null ? invoice.getInvoiceUrl() : "");
+        webView.addJavascriptInterface(new JavaScriptInterface(InvoiceDetailActivity.this, String.valueOf(invoice.getInvoiceId())), "Android");
 
         webView.setDownloadListener((url, userAgent, contentDisposition, mimetype, contentLength) -> {
-            DownloadManager.Request request = new DownloadManager.Request(
-                    Uri.parse("https://eyeplus.xtechsoftsolution.com/invoice_pdf.php?cust_id=2&last_id=9"));
-
-            request.allowScanningByMediaScanner();
-            request.setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED); //Notify client once download is completed!
-            request.setDestinationInExternalPublicDir(Environment.DIRECTORY_DOWNLOADS, "INVOICE" + invoice.getInvoiceId());
-            DownloadManager dm = (DownloadManager) getSystemService(DOWNLOAD_SERVICE);
-            dm.enqueue(request);
-            Toast.makeText(getApplicationContext(), "Downloading File", //To notify the Client that the file is being downloaded
-                    Toast.LENGTH_LONG).show();
-
+            webView.loadUrl(JavaScriptInterface.getBase64StringFromBlobUrl(url));
         });
     }
 }
