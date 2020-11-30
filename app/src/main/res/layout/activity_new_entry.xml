@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="5dp"
-    tools:context=".NewEntryActivity">
+    tools:context=".Activity.NewEntryActivity">
 
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
@@ -64,8 +64,7 @@
     <shravan.nyshadh.billmaker.SwipableViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@id/bottom" />
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:id="@+id/bottom"

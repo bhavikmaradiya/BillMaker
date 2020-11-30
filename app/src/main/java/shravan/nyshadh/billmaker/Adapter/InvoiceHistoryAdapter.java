@@ -1,8 +1,6 @@
 package shravan.nyshadh.billmaker.Adapter;
 
 import android.content.Context;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
@@ -42,7 +42,7 @@ public class InvoiceHistoryAdapter extends RecyclerView.Adapter<InvoiceHistoryAd
         Invoice invoice = invoiceList.get(holder.getAdapterPosition());
 
         holder.actionLayout.setVisibility(invoice.isExpanded() ? View.VISIBLE : View.GONE);
-        holder.price.setText(String.format("Total : %s", "50"));
+        holder.price.setText(String.format("Total : %s", NumberFormat.getCurrencyInstance(new Locale("en", "in")).format(invoice.getTotal())));
         holder.date.setText(invoice.getTime().replaceAll("-", "/"));
         holder.number.setText(invoice.getCustomer() != null ? invoice.getCustomer().getCustomerPhone() : "");
         holder.name.setText(invoice.getCustomer() != null ? invoice.getCustomer().getCustomerName() : "");

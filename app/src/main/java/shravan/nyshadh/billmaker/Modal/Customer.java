@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Customer implements Serializable {
     @SerializedName("cust_id")
     @Expose
-    private Integer CustomerId;
+    private int CustomerId;
     @SerializedName("cust_name")
     @Expose
     private String CustomerName;
@@ -41,13 +41,13 @@ public class Customer implements Serializable {
     private String CustomerLeftIPD;
     @SerializedName("prescriber_id")
     @Expose
-    private Integer prescriberId;
+    private int prescriberId;
 
-    public Integer getCustomerId() {
+    public int getCustomerId() {
         return CustomerId;
     }
 
-    public void setCustomerId(Integer CustomerId) {
+    public void setCustomerId(int CustomerId) {
         this.CustomerId = CustomerId;
     }
 
@@ -131,11 +131,11 @@ public class Customer implements Serializable {
         this.CustomerLeftIPD = CustomerLeftIPD;
     }
 
-    public Integer getPrescriberId() {
+    public int getPrescriberId() {
         return prescriberId;
     }
 
-    public void setPrescriberId(Integer prescriberId) {
+    public void setPrescriberId(int prescriberId) {
         this.prescriberId = prescriberId;
     }
 }

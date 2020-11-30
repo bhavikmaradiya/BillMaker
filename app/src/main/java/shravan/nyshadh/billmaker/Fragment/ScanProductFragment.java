@@ -75,7 +75,7 @@ public class ScanProductFragment extends Fragment implements ZXingScannerView.Re
         placeholder_view = view.findViewById(R.id.placeholder_view);
         productListAdapter = new ProductListAdapter(activity == null ? getActivity() : activity, this);
         productListRecyclerView.setAdapter(productListAdapter);
-        mScannerView = new ZXingScannerView(getActivity());
+        mScannerView = new ZXingScannerView(activity == null ? getActivity() : activity);
         scannerFragment.addView(mScannerView);
         return view;
     }

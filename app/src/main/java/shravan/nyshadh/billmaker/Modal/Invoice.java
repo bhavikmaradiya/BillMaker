@@ -3,18 +3,19 @@ package shravan.nyshadh.billmaker.Modal;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Invoice {
+public class Invoice implements Serializable {
     @SerializedName("invoice_id")
     @Expose
-    private Integer invoiceId;
+    private int invoiceId;
     @SerializedName("cust_id")
     @Expose
     private Customer customer;
     @SerializedName("user_id")
     @Expose
-    private Integer userId;
+    private int userId;
     @SerializedName("product_id")
     @Expose
     private List<Product> products = null;
@@ -39,6 +40,12 @@ public class Invoice {
     @SerializedName("status")
     @Expose
     private String status;
+    @SerializedName("total")
+    @Expose
+    private int total;
+    @SerializedName("invoiceUrl")
+    @Expose
+    private String invoiceUrl;
 
     public boolean isExpanded = false;
 
@@ -50,12 +57,28 @@ public class Invoice {
         isExpanded = expanded;
     }
 
-    public Integer getInvoiceId() {
+    public int getInvoiceId() {
         return invoiceId;
     }
 
-    public void setInvoiceId(Integer invoiceId) {
+    public void setInvoiceId(int invoiceId) {
         this.invoiceId = invoiceId;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public String getInvoiceUrl() {
+        return invoiceUrl;
+    }
+
+    public void setInvoiceUrl(String invoiceUrl) {
+        this.invoiceUrl = invoiceUrl;
     }
 
     public Customer getCustomer() {
@@ -66,11 +89,11 @@ public class Invoice {
         this.customer = customer;
     }
 
-    public Integer getUserId() {
+    public int getUserId() {
         return userId;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(int userId) {
         this.userId = userId;
     }
 

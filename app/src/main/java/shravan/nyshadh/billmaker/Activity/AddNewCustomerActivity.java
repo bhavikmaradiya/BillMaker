@@ -1,4 +1,4 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -32,6 +32,7 @@ import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.Modal.Prescriber;
+import shravan.nyshadh.billmaker.R;
 
 import static com.android.volley.Request.Method.POST;
 import static shravan.nyshadh.billmaker.Modal.Common.GET_PRESCRIBERS;

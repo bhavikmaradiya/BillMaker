@@ -25,6 +25,7 @@ public class Common {
     public static final String UPDATE_CUSTOMER = API + "update-customers/";
     public static final String GET_PRODUCT = API + "product-detail/";
     public static final String GET_INVOICES = API + "get-invoice";
+    public static final String CREATE_INVOICE = API + "create-invoice";
 
 
     public static boolean isNetworkAvailable(Context context) {
@@ -32,6 +33,48 @@ public class Common {
                 = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    public static String getProductsId() {
+        if (SELECTED_PRODUCTS != null && !SELECTED_PRODUCTS.isEmpty()) {
+            StringBuilder productsId = new StringBuilder();
+            for (int i = 0; i < SELECTED_PRODUCTS.size(); i++) {
+                productsId.append(String.valueOf(SELECTED_PRODUCTS.get(i).getProductId()));
+                if (i != SELECTED_PRODUCTS.size() - 1) {
+                    productsId.append(",");
+                }
+            }
+            return productsId.toString();
+        }
+        return "";
+    }
+
+    public static String getProductsQuantity() {
+        if (SELECTED_PRODUCTS != null && !SELECTED_PRODUCTS.isEmpty()) {
+            StringBuilder productsQuantity = new StringBuilder();
+            for (int i = 0; i < SELECTED_PRODUCTS.size(); i++) {
+                productsQuantity.append(String.valueOf(SELECTED_PRODUCTS.get(i).getQuantity()));
+                if (i != SELECTED_PRODUCTS.size() - 1) {
+                    productsQuantity.append(",");
+                }
+            }
+            return productsQuantity.toString();
+        }
+        return "";
+    }
+
+    public static String getProductsDiscount() {
+        if (SELECTED_PRODUCTS != null && !SELECTED_PRODUCTS.isEmpty()) {
+            StringBuilder productsDiscount = new StringBuilder();
+            for (int i = 0; i < SELECTED_PRODUCTS.size(); i++) {
+                productsDiscount.append(String.valueOf(SELECTED_PRODUCTS.get(i).getDiscountPercentage()));
+                if (i != SELECTED_PRODUCTS.size() - 1) {
+                    productsDiscount.append(",");
+                }
+            }
+            return productsDiscount.toString();
+        }
+        return "";
     }
 
 

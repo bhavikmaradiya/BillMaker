@@ -13,10 +13,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-import shravan.nyshadh.billmaker.AddNewCustomerActivity;
+import shravan.nyshadh.billmaker.Activity.AddNewCustomerActivity;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
-import shravan.nyshadh.billmaker.NewEntryActivity;
+import shravan.nyshadh.billmaker.Activity.NewEntryActivity;
 import shravan.nyshadh.billmaker.R;
 
 public class CustomerListAdapter extends RecyclerView.Adapter<CustomerListAdapter.CustomerHolder> {

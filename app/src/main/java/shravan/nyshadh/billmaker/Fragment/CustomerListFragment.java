@@ -25,7 +25,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.CustomerListAdapter;
-import shravan.nyshadh.billmaker.AddNewCustomerActivity;
+import shravan.nyshadh.billmaker.Activity.AddNewCustomerActivity;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Customer;
 import shravan.nyshadh.billmaker.R;

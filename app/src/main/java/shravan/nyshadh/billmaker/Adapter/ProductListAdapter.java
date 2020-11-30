@@ -95,7 +95,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
         } else {
             boolean isAdded = false;
             for (int i = 0; i < productList.size(); i++) {
-                if (productList.get(i).getProductId().equals(product.getProductId())) {
+                if (productList.get(i).getProductId() == product.getProductId()) {
                     isAdded = true;
                     break;
                 }
@@ -113,7 +113,7 @@ public class ProductListAdapter extends RecyclerView.Adapter<ProductListAdapter.
 
     public boolean isAdded(int id) {
         for (int i = 0; i < productList.size(); i++) {
-            if (productList.get(i).getProductId().equals(id)) {
+            if (productList.get(i).getProductId() == id) {
                 increaseQuantity(i);
                 productOptionsListener.onProductAdded();
                 Common.SELECTED_PRODUCTS = productList;

@@ -1,8 +1,10 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Activity;
 
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,8 +18,10 @@ import shravan.nyshadh.billmaker.Fragment.ManualProductFragment;
 import shravan.nyshadh.billmaker.Fragment.ScanProductFragment;
 import shravan.nyshadh.billmaker.Fragment.SelectCustomerFragment;
 import shravan.nyshadh.billmaker.Modal.Common;
+import shravan.nyshadh.billmaker.R;
+import shravan.nyshadh.billmaker.SwipableViewPager;
 
-public class NewEntryActivity extends AppCompatActivity {
+public class NewEntryActivity extends AppCompatActivity implements ManualProductFragment.CreateInvoiceListener {
     SwipableViewPager viewPager;
     Button cancelBtn, nextBtn;
 
@@ -76,6 +80,11 @@ public class NewEntryActivity extends AppCompatActivity {
                 } else {
                     cancelBtn.setText("Cancel");
                 }
+                if (position == 2){
+                    nextBtn.setVisibility(View.GONE);
+                }else {
+                    nextBtn.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -98,6 +107,14 @@ public class NewEntryActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Common.selectedCustomer = null;
+        Common.TAX_PERCENT = 0;
+        Common.SELECTED_PRODUCTS = null;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             super.onBackPressed();
@@ -105,4 +122,8 @@ public class NewEntryActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public void onCreateInvoice() {
+        Toast.makeText(this, "onCreateInvoice", Toast.LENGTH_SHORT).show();
+    }
 }

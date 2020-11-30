@@ -40,7 +40,7 @@ public class SelectCustomerAdapter extends RecyclerView.Adapter<SelectCustomerAd
 
     @Override
     public void onBindViewHolder(@NonNull CustomerHolder holder, int position) {
-        holder.imgCheck.setVisibility(Common.selectedCustomer != null && Common.selectedCustomer.getCustomerId().equals(customerList.get(position).getCustomerId()) ? View.VISIBLE : View.INVISIBLE);
+        holder.imgCheck.setVisibility(Common.selectedCustomer != null && Common.selectedCustomer.getCustomerId() == customerList.get(position).getCustomerId() ? View.VISIBLE : View.INVISIBLE);
         holder.customerName.setText(customerList.get(position).getCustomerName());
         holder.customerNumber.setText(customerList.get(position).getCustomerPhone());
 

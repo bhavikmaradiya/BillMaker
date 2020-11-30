@@ -3,10 +3,12 @@ package shravan.nyshadh.billmaker.Modal;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Product {
+import java.io.Serializable;
+
+public class Product implements Serializable {
     @SerializedName("product_id")
     @Expose
-    private Integer productId;
+    private int productId;
     @SerializedName("name")
     @Expose
     private String name;
@@ -21,7 +23,7 @@ public class Product {
     private String sellprice;
     @SerializedName("quantity")
     @Expose
-    private Integer quantity = 1;
+    private int quantity = 1;
     @SerializedName("totalprice")
     @Expose
     private String totalprice;
@@ -68,11 +70,11 @@ public class Product {
         return discountPercentage;
     }
 
-    public Integer getProductId() {
+    public int getProductId() {
         return productId;
     }
 
-    public void setProductId(Integer productId) {
+    public void setProductId(int productId) {
         this.productId = productId;
     }
 
@@ -108,11 +110,11 @@ public class Product {
         this.sellprice = sellprice;
     }
 
-    public Integer getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Integer quantity) {
+    public void setQuantity(int quantity) {
         this.quantity = quantity;
     }
 

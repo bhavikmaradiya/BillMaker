@@ -27,7 +27,7 @@ import es.dmoral.toasty.Toasty;
 import shravan.nyshadh.billmaker.Adapter.InvoiceHistoryAdapter;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
-import shravan.nyshadh.billmaker.NewEntryActivity;
+import shravan.nyshadh.billmaker.Activity.NewEntryActivity;
 import shravan.nyshadh.billmaker.R;
 
 

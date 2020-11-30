@@ -4,53 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+
     tools:context=".Fragment.SelectCustomerFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:background="@drawable/edittext_bg"
-        android:padding="1dp">
+        android:layout_height="match_parent"
+        android:layout_marginBottom="60dp"
+        android:orientation="vertical">
 
-        <EditText
-            android:id="@+id/searchBar"
-            android:layout_width="0dp"
-            android:layout_height="40dp"
-            android:layout_weight="2.50"
-            android:autofillHints="Enter Name or Phone Number"
-            android:background="@drawable/white_bg"
-            android:ellipsize="end"
-            android:gravity="center_vertical"
-            android:hint="Enter Name or Phone Number"
-            android:inputType="text"
-            android:maxLines="1"
-            android:padding="7dp"
-            android:textAllCaps="true"
-            android:textSize="16sp" />
-
-        <ImageView
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:layout_weight="0.50"
-            android:padding="7dp"
-            android:src="@drawable/ic_search" />
-
-    </LinearLayout>
-
-    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-        android:id="@+id/pullToRefresh"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/rvCustomers"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:itemCount="5"
-            android:layout_marginTop="5dp"
-            tools:listitem="@layout/item_customer" />
-    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+            android:layout_margin="10dp"
+            android:background="@drawable/edittext_bg"
+            android:padding="1dp">
 
+            <EditText
+                android:id="@+id/searchBar"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="2.50"
+                android:autofillHints="Enter Name or Phone Number"
+                android:background="@drawable/white_bg"
+                android:ellipsize="end"
+                android:gravity="center_vertical"
+                android:hint="Enter Name or Phone Number"
+                android:inputType="text"
+                android:maxLines="1"
+                android:padding="7dp"
+                android:textAllCaps="true"
+                android:textSize="16sp" />
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_weight="0.50"
+                android:padding="7dp"
+                android:src="@drawable/ic_search" />
+
+        </LinearLayout>
+
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/pullToRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rvCustomers"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                tools:itemCount="5"
+                tools:listitem="@layout/item_customer" />
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+    </LinearLayout>
 </LinearLayout>

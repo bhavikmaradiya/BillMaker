@@ -1,4 +1,4 @@
-package shravan.nyshadh.billmaker;
+package shravan.nyshadh.billmaker.Activity;
 
 import android.Manifest;
 import android.app.Dialog;
@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
@@ -36,6 +37,7 @@ import shravan.nyshadh.billmaker.Fragment.CustomerListFragment;
 import shravan.nyshadh.billmaker.Fragment.HistoryFragment;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
+import shravan.nyshadh.billmaker.R;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InvoiceHistoryAdapter.InvoiceActionListener {
     TabLayout tabLayout;
@@ -59,9 +61,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), fragments, new String[]{"Customers", "History"}, FragmentPagerAdapter.BEHAVIOR_SET_USER_VISIBLE_HINT);
         pager.setAdapter(pagerAdapter);
 
-        //TODO create customer update and delete activity
-        //TODO create history detail page
-        //TODO create invoice pdf
+        if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 5);
+        }
+
     }
 
     @Override
@@ -128,6 +131,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     startActivity(intent);
                 }
             });
+        } else {
+            startActivity(new Intent(getApplicationContext(), InvoiceDetailActivity.class).putExtra(action, invoice));
         }
 
 
