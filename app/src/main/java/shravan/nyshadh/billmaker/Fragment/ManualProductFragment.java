@@ -2,6 +2,8 @@ package shravan.nyshadh.billmaker.Fragment;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -33,6 +35,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import es.dmoral.toasty.Toasty;
+import shravan.nyshadh.billmaker.Activity.LoginActivity;
 import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Product;
 import shravan.nyshadh.billmaker.R;
@@ -159,13 +162,15 @@ public class ManualProductFragment extends Fragment implements DatePickerDialog.
                         Common.TAX_PERCENT = 0;
                         Common.SELECTED_PRODUCTS = null;
                         activity.finish();
+                    } else {
+                        Toasty.error(activity, "Something went wrong!", Toasty.LENGTH_SHORT).show();
                     }
                 }, error -> Toasty.error(activity, Objects.requireNonNull(error.getMessage()), Toasty.LENGTH_SHORT).show()) {
                     @Override
                     protected Map<String, String> getParams() throws AuthFailureError {
                         Map<String, String> params = new HashMap<>();
                         params.put("cust_id", String.valueOf(Common.selectedCustomer.getCustomerId()));
-                        params.put("user_id", "1");
+                        params.put("user_id", activity.getSharedPreferences(Common.LOGIN, Context.MODE_PRIVATE).getString(Common.USERID, ""));
                         params.put("product_id", Common.getProductsId());
                         params.put("quantity", Common.getProductsQuantity());
                         params.put("discount_percentage", Common.getProductsDiscount());
@@ -177,7 +182,12 @@ public class ManualProductFragment extends Fragment implements DatePickerDialog.
                         return params;
                     }
                 };
-                Volley.newRequestQueue(activity).add(request);
+                if (activity.getSharedPreferences(Common.LOGIN, Context.MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+                    Volley.newRequestQueue(activity).add(request);
+                } else {
+                    Toasty.error(activity, "Please login to create invoice", Toasty.LENGTH_SHORT).show();
+                    startActivity(new Intent(activity, LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                }
             }
         });
     }

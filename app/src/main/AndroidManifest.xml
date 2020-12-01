@@ -17,7 +17,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activity.InvoiceDetailActivity" android:theme="@style/NoActionBar"></activity>
+        <activity android:name=".Activity.LoginActivity"></activity>
+        <activity
+            android:name=".Activity.InvoiceDetailActivity"
+            android:theme="@style/NoActionBar" />
         <activity android:name=".Activity.AddNewCustomerActivity" />
         <activity android:name=".Activity.NewEntryActivity" />
         <activity
@@ -37,7 +40,7 @@
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/provider_paths"/>
+                android:resource="@xml/provider_paths" />
         </provider>
 
         <meta-data

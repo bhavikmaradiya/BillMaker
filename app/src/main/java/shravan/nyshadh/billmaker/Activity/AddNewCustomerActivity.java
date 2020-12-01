@@ -1,6 +1,7 @@
 package shravan.nyshadh.billmaker.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -54,6 +55,10 @@ public class AddNewCustomerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_new_customer);
         initView();
         if (!isNew) setValues();
+
+        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
 
         btnSave.setOnClickListener(view -> {
             if (TextUtils.isEmpty(etFullName.getText().toString().trim())) {

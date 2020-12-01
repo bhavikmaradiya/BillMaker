@@ -1,6 +1,7 @@
 package shravan.nyshadh.billmaker.Activity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,6 +28,9 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_detail);
         webView = findViewById(R.id.webView);
+        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
         invoice = (Invoice) getIntent().getSerializableExtra(Common.ACTION_INVOICE_DETAIL);
         webView.getSettings().setJavaScriptEnabled(true);
         dialog = new ProgressDialog(InvoiceDetailActivity.this);

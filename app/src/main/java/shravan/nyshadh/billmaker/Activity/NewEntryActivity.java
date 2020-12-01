@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +37,10 @@ public class NewEntryActivity extends AppCompatActivity implements ManualProduct
         viewPager = findViewById(R.id.viewPager);
         viewPager.setCanScroll(false);
         viewPager.setOffscreenPageLimit(3);
+
+        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+            startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+        }
         Fragment[] fragments = new Fragment[3];
         fragments[0] = new SelectCustomerFragment();
         fragments[1] = new ScanProductFragment();

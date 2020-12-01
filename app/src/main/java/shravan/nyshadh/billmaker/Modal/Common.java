@@ -13,6 +13,9 @@ public class Common {
     public static final String CUSTOMER = "customer";
     public static final String IS_NEW = "isNew";
     public static final String IS_SELECTED = "isSelected";
+    public static final String IS_LOGGEDIN = "isLoggedin";
+    public static final String USERID = "uId";
+
     public static double TAX_PERCENT = 0;
     public static List<Product> SELECTED_PRODUCTS;
     public static Customer selectedCustomer;
@@ -25,6 +28,7 @@ public class Common {
     public static final String UPDATE_CUSTOMER = API + "update-customers/";
     public static final String GET_PRODUCT = API + "product-detail/";
     public static final String GET_INVOICES = API + "get-invoice";
+    public static final String LOGIN = API + "check-login";
     public static final String CREATE_INVOICE = API + "create-invoice";
 
 
