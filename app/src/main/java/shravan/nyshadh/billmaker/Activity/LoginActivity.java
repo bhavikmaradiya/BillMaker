@@ -33,6 +33,11 @@ public class LoginActivity extends AppCompatActivity {
         etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
 
+        if (getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+            startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            finish();
+        }
+
         btnLogin.setOnClickListener(view -> {
             if (TextUtils.isEmpty(etUsername.getText().toString().trim()) || TextUtils.isEmpty(etPassword.getText().toString().trim())) {
                 Toasty.warning(getApplicationContext(), "Enter valid username and password", Toasty.LENGTH_SHORT).show();
@@ -40,11 +45,11 @@ public class LoginActivity extends AppCompatActivity {
                 StringRequest request = new StringRequest(POST, Common.LOGIN, response -> {
                     if (!response.equalsIgnoreCase("error")) {
                         Toasty.success(getApplicationContext(), "Login Successfully!", Toasty.LENGTH_SHORT).show();
-                        getSharedPreferences(Common.LOGIN, MODE_PRIVATE).edit().putBoolean(Common.IS_LOGGEDIN, true).putString(Common.USERID, response.trim()).apply();
+                        getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).edit().putBoolean(Common.IS_LOGGEDIN, true).putString(Common.USERID, response.trim()).apply();
                         startActivity(new Intent(getApplicationContext(), MainActivity.class));
                     } else {
                         Toasty.error(getApplicationContext(), "Enter valid username and password", Toasty.LENGTH_SHORT).show();
-                        getSharedPreferences(Common.LOGIN, MODE_PRIVATE).edit().putBoolean(Common.IS_LOGGEDIN, false).putString(Common.USERID, response.trim()).apply();
+                        getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).edit().putBoolean(Common.IS_LOGGEDIN, false).putString(Common.USERID, response.trim()).apply();
                     }
                 }, error -> Toasty.error(getApplicationContext(), "Something went wrong!", Toasty.LENGTH_SHORT).show()) {
                     @Override
@@ -55,7 +60,7 @@ public class LoginActivity extends AppCompatActivity {
                         return params;
                     }
                 };
-                if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+                if (!getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
                     Volley.newRequestQueue(getApplicationContext()).add(request);
                 } else {
                     Toasty.warning(getApplicationContext(), "Already logged in", Toasty.LENGTH_SHORT).show();

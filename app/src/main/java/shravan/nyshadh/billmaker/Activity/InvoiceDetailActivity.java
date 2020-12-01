@@ -28,7 +28,7 @@ public class InvoiceDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_detail);
         webView = findViewById(R.id.webView);
-        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+        if (!getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
         invoice = (Invoice) getIntent().getSerializableExtra(Common.ACTION_INVOICE_DETAIL);

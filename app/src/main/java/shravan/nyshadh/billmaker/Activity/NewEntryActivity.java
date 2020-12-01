@@ -38,7 +38,7 @@ public class NewEntryActivity extends AppCompatActivity implements ManualProduct
         viewPager.setCanScroll(false);
         viewPager.setOffscreenPageLimit(3);
 
-        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+        if (!getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
         Fragment[] fragments = new Fragment[3];

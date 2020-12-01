@@ -15,6 +15,7 @@ public class Common {
     public static final String IS_SELECTED = "isSelected";
     public static final String IS_LOGGEDIN = "isLoggedin";
     public static final String USERID = "uId";
+    public static final String KEY_LOGIN = "keyLogin";
 
     public static double TAX_PERCENT = 0;
     public static List<Product> SELECTED_PRODUCTS;

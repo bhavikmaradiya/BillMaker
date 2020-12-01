@@ -1,6 +1,7 @@
 package shravan.nyshadh.billmaker.Activity;
 
 import android.Manifest;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -9,6 +10,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
@@ -25,8 +27,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
-import com.android.volley.toolbox.Volley;
-import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -40,7 +40,7 @@ import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
 import shravan.nyshadh.billmaker.R;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, InvoiceHistoryAdapter.InvoiceActionListener {
+public class MainActivity extends AppCompatActivity implements InvoiceHistoryAdapter.InvoiceActionListener {
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
     ViewPager pager;
@@ -57,7 +57,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         tabLayout.setupWithViewPager(pager);
         setSupportActionBar(toolbar);
 
-        if (!getSharedPreferences(Common.LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+        if (!getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
         }
 
@@ -73,17 +73,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     }
 
+
     @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.create:
-                startActivity(new Intent(getApplicationContext(), NewEntryActivity.class));
-                break;
-            case R.id.newCustomer:
-                startActivity(new Intent(getApplicationContext(), AddNewCustomerActivity.class));
-                break;
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.logout) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setMessage("Conform Logout?")
+                    .setPositiveButton("Logout", (dialog, which) -> {
+                        getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).edit().putBoolean(Common.IS_LOGGEDIN, false).clear().apply();
+                        startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
+                    }).setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss()).create().show();
+            return true;
         }
-        return false;
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

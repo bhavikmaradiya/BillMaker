@@ -182,7 +182,7 @@ public class ManualProductFragment extends Fragment implements DatePickerDialog.
                         return params;
                     }
                 };
-                if (activity.getSharedPreferences(Common.LOGIN, Context.MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
+                if (activity.getSharedPreferences(Common.KEY_LOGIN, Context.MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
                     Volley.newRequestQueue(activity).add(request);
                 } else {
                     Toasty.error(activity, "Please login to create invoice", Toasty.LENGTH_SHORT).show();
