@@ -37,11 +37,11 @@ import shravan.nyshadh.billmaker.R;
 public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.InvoiceActionListener {
     RecyclerView rvInvoices;
     View view;
-    FloatingActionButton fab;
     List<Invoice> invoiceList;
     SwipeRefreshLayout swipeRefreshLayout;
     Activity activity;
     InvoiceHistoryAdapter adapter;
+    Common.onFabScrollListener onFabScrollListener;
     InvoiceHistoryAdapter.InvoiceActionListener invoiceActionListener;
 
 
@@ -53,6 +53,7 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
     public void onAttach(@NonNull Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
+        this.onFabScrollListener = (Common.onFabScrollListener) activity;
         this.invoiceActionListener = (InvoiceHistoryAdapter.InvoiceActionListener) activity;
     }
 
@@ -68,7 +69,6 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
         view = inflater.inflate(R.layout.fragment_history, container, false);
         rvInvoices = view.findViewById(R.id.rvInvoices);
         swipeRefreshLayout = view.findViewById(R.id.pullToRefresh);
-        fab = view.findViewById(R.id.fab);
         rvInvoices.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvInvoices.setHasFixedSize(true);
         adapter = new InvoiceHistoryAdapter(getActivity(), invoiceList, this);
@@ -76,10 +76,12 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
         rvInvoices.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                if (dy > 0)
-                    fab.hide();
-                else if (dy < 0)
-                    fab.show();
+                if (onFabScrollListener != null){
+                    if (dy > 0)
+                        onFabScrollListener.onHide();
+                    else if (dy < 0)
+                        onFabScrollListener.onShow();
+                }
             }
         });
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -91,9 +93,6 @@ public class HistoryFragment extends Fragment implements InvoiceHistoryAdapter.I
                 swipeRefreshLayout.setRefreshing(false);
             }
 
-        });
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), NewEntryActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         });
 
         if (Common.isNetworkAvailable(getActivity())) {

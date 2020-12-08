@@ -82,5 +82,10 @@ public class Common {
         return "";
     }
 
+    public interface onFabScrollListener{
+        void onHide();
+        void onShow();
+    }
+
 
 }

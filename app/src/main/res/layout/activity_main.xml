@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:fab="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:fab="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <LinearLayout
@@ -11,72 +11,60 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="#5AC676"
-        app:elevation="0dp" />
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#5AC676"
+            app:elevation="0dp" />
 
-    <com.google.android.material.tabs.TabLayout
-        android:id="@+id/tabLayout"
-        android:layout_width="match_parent"
-        android:layout_height="?actionBarSize"
-        android:background="#5AC676"
-        app:tabIndicatorColor="#FFF"
-        app:tabSelectedTextColor="#FFF"
-        app:tabTextColor="#000" />
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="?actionBarSize"
+            android:background="#5AC676"
+            app:tabIndicatorColor="#FFF"
+            app:tabSelectedTextColor="#FFF"
+            app:tabTextColor="#000" />
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
 
     </LinearLayout>
 
     <com.github.clans.fab.FloatingActionMenu
         android:id="@+id/menu"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        fab:menu_fab_size="normal"
-        fab:menu_showShadow="true"
-        fab:menu_shadowRadius="4dp"
-        fab:menu_shadowXOffset="1dp"
-        fab:menu_shadowYOffset="3dp"
-        fab:menu_colorNormal="#6EC885"
-        fab:menu_animationDelayPerItem="50"
-        fab:menu_icon="@drawable/ic_fab_add"
-        fab:menu_buttonSpacing="0dp"
-        fab:menu_labels_margin="0dp"
-        fab:menu_labels_textColor="#FFFFFF"
-        fab:menu_labels_textSize="14sp"
-        fab:menu_labels_cornerRadius="3dp"
-        fab:menu_labels_colorNormal="#6EC885"
-        fab:menu_labels_showShadow="true"
-        fab:menu_labels_singleLine="false"
-        fab:menu_labels_ellipsize="none"
-        fab:menu_labels_maxLines="-1"
-        fab:menu_labels_position="left"
-        fab:menu_openDirection="up"
-        fab:menu_backgroundColor="@android:color/transparent"
-        app:maxImageSize="30dp"
-        app:backgroundTint="#6EC885"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        app:pressedTranslationZ="12dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginEnd="20dp"
-        android:contentDescription="Add Customer"
-        android:layout_alignParentEnd="true">
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"
+        fab:menu_animationDelayPerItem="50"
+        fab:menu_colorNormal="@color/app_primary"
+        fab:menu_fab_size="normal"
+        fab:menu_icon="@drawable/ic_fab_add"
+        fab:menu_openDirection="up">
 
         <com.github.clans.fab.FloatingActionButton
-            android:id="@+id/menu_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/addCustomer"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
             android:src="@drawable/ic_add"
-            fab:fab_size="mini"
-            fab:fab_label="Menu item 1" />
+            app:fab_colorNormal="@color/app_primary"
+            fab:fab_size="mini" />
+
+        <com.github.clans.fab.FloatingActionButton
+            android:id="@+id/createInvoice"
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/ic_invoice"
+            app:fab_colorNormal="@color/app_primary"
+            fab:fab_size="mini" />
 
     </com.github.clans.fab.FloatingActionMenu>
 

@@ -1,5 +1,6 @@
 package shravan.nyshadh.billmaker.Fragment;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -42,19 +44,23 @@ public class CustomerListFragment extends Fragment {
     List<Customer> customerList;
     CustomerListAdapter adapter;
     SwipeRefreshLayout swipeRefreshLayout;
-    FloatingActionButton fab;
+    Common.onFabScrollListener onFabScrollListener;
 
     public CustomerListFragment() {
         customerList = new ArrayList<>();
     }
 
+    @Override
+    public void onAttach(@NonNull Activity activity) {
+        super.onAttach(activity);
+        this.onFabScrollListener = (Common.onFabScrollListener) activity;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_customer_list, container, false);
         rvCustomersList = view.findViewById(R.id.rvCustomersList);
-        fab = view.findViewById(R.id.fab);
         swipeRefreshLayout = view.findViewById(R.id.pullToRefresh);
         rvCustomersList.setLayoutManager(new LinearLayoutManager(getActivity()));
         rvCustomersList.setHasFixedSize(true);
@@ -64,11 +70,12 @@ public class CustomerListFragment extends Fragment {
         rvCustomersList.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                if (onFabScrollListener != null){
                 if (dy > 0)
-                    fab.hide();
+                    onFabScrollListener.onHide();
                 else if (dy < 0)
-                    fab.show();
-            }
+                    onFabScrollListener.onShow();
+            }}
         });
 
         swipeRefreshLayout.setOnRefreshListener(() -> {
@@ -80,10 +87,6 @@ public class CustomerListFragment extends Fragment {
                 swipeRefreshLayout.setRefreshing(false);
             }
 
-        });
-
-        fab.setOnClickListener(v -> {
-            startActivity(new Intent(getActivity(), AddNewCustomerActivity.class).putExtra(Common.IS_NEW, true).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         });
 
         if (Common.isNetworkAvailable(getActivity())) {
@@ -148,4 +151,5 @@ public class CustomerListFragment extends Fragment {
             swipeRefreshLayout.setRefreshing(false);
         }
     }
+
 }

@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#FFFFFF"
     tools:context=".Fragment.CustomerListFragment">
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -18,18 +18,4 @@
             tools:listitem="@layout/item_customer_list" />
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_add"
-        android:layout_gravity="bottom|end"
-        app:elevation="6dp"
-        app:maxImageSize="30dp"
-        app:backgroundTint="#6EC885"
-        android:layout_marginBottom="20dp"
-        android:layout_marginRight="20dp"
-        app:pressedTranslationZ="12dp"
-        android:layout_marginEnd="20dp"
-        android:contentDescription="Add Customer" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -27,6 +27,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.Objects;
@@ -40,10 +42,12 @@ import shravan.nyshadh.billmaker.Modal.Common;
 import shravan.nyshadh.billmaker.Modal.Invoice;
 import shravan.nyshadh.billmaker.R;
 
-public class MainActivity extends AppCompatActivity implements InvoiceHistoryAdapter.InvoiceActionListener {
+public class MainActivity extends AppCompatActivity implements InvoiceHistoryAdapter.InvoiceActionListener, Common.onFabScrollListener {
     TabLayout tabLayout;
     PagerAdapter pagerAdapter;
     ViewPager pager;
+    FloatingActionMenu menu;
+    FloatingActionButton addCustomer, createInvoice;
     Toolbar toolbar;
     Dialog dialog;
 
@@ -53,9 +57,25 @@ public class MainActivity extends AppCompatActivity implements InvoiceHistoryAda
         setContentView(R.layout.activity_main);
         pager = findViewById(R.id.viewPager);
         toolbar = findViewById(R.id.toolbar);
+        addCustomer = findViewById(R.id.addCustomer);
+        createInvoice = findViewById(R.id.createInvoice);
+        menu = findViewById(R.id.menu);
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(pager);
         setSupportActionBar(toolbar);
+
+        addCustomer.setColorNormalResId(R.color.app_primary);
+        createInvoice.setColorNormalResId(R.color.app_primary);
+        menu.setMenuButtonColorNormalResId(R.color.app_primary);
+
+        addCustomer.setColorPressedResId(R.color.app_primary);
+        createInvoice.setColorPressedResId(R.color.app_primary);
+        menu.setMenuButtonColorPressedResId(R.color.app_primary);
+
+        addCustomer.setColorRippleResId(R.color.app_primary);
+        createInvoice.setColorRippleResId(R.color.app_primary);
+        menu.setMenuButtonColorRippleResId(R.color.app_primary);
+
 
         if (!getSharedPreferences(Common.KEY_LOGIN, MODE_PRIVATE).getBoolean(Common.IS_LOGGEDIN, false)) {
             startActivity(new Intent(getApplicationContext(), LoginActivity.class).addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP));
@@ -70,6 +90,14 @@ public class MainActivity extends AppCompatActivity implements InvoiceHistoryAda
         if (ContextCompat.checkSelfPermission(getApplicationContext(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 5);
         }
+
+        addCustomer.setOnClickListener(addCustomerView -> {
+            startActivity(new Intent(getApplicationContext(), AddNewCustomerActivity.class).putExtra(Common.IS_NEW, true));
+        });
+
+        createInvoice.setOnClickListener(createInvoiceView -> {
+            startActivity(new Intent(getApplicationContext(), NewEntryActivity.class));
+        });
 
     }
 
@@ -170,5 +198,17 @@ public class MainActivity extends AppCompatActivity implements InvoiceHistoryAda
         if (dialog != null && dialog.isShowing()) {
             dialog.dismiss();
         }
+    }
+
+    @Override
+    public void onHide() {
+        if (!menu.isOpened()) {
+            menu.hideMenu(true);
+        }
+    }
+
+    @Override
+    public void onShow() {
+        menu.showMenu(true);
     }
 }
